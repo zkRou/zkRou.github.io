@@ -152,35 +152,208 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-日期和时间实用技巧" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/15/hello-world/">Hello World</a>
+      <a class="article-title" href="/2018/04/15/日期和时间实用技巧/">日期和时间使用技巧</a>
     </h1>
   
 
         
-        <a href="/2018/04/15/hello-world/" class="archive-article-date">
-  	<time datetime="2018-04-15T07:47:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-15</time>
+        <a href="/2018/04/15/日期和时间实用技巧/" class="archive-article-date">
+  	<time datetime="2018-04-15T03:54:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-15</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+        <h4 id="以前"><a href="#以前" class="headerlink" title="以前"></a>以前</h4><p>使用 <strong>System.currentTimeMillis()</strong> 来返回1970年1月1日到今天的毫秒数。</p>
+<p>或者使用 <strong>Date</strong> 类来操作日期。</p>
+<p>当遇到加减月份、天数的时候，又需要用到 <strong>Calendar</strong> 。</p>
+<p>当需要格式化日期的时候需要使用<strong>java.text.DateFormat</strong> 类。</p>
+<p>再或者引入第三方 <strong>Joda-Time</strong> 这个专门处理日期时间的库。</p>
+<h4 id="为什么我们需要新的Java日期-时间API"><a href="#为什么我们需要新的Java日期-时间API" class="headerlink" title="为什么我们需要新的Java日期/时间API"></a>为什么我们需要新的Java日期/时间API</h4><ol>
+<li>Java的日期/时间类的定义并不一致，在java.util和java.sql的包中都有日期类，此外用于格式化和解析的类在java.text包中定义</li>
+<li>java.util.Date同时包含日期和时间，而java.sql.Date仅包含日期，将其纳入java.sql包并不合理。另外这两个类都有相同的名字，这本身就是一个非常糟糕的设计</li>
+<li>对于时间、时间戳、格式化以及解析，并没有一些明确定义的类。对于格式化和解析的需求，我们有java.text.DateFormat抽象类，但通常情况下，SimpleDateFormat类被用于此类需求</li>
+<li>所有的日期类都是可变的，因此他们都不是线程安全的，这是Java日期类最大的问题之一</li>
+<li>日期类并不提供国际化，没有时区支持，因此Java引入了java.util.Calendar和java.util.TimeZone类，但他们同样存在上述所有的问题。</li>
+</ol>
+<h4 id="JAVA8日期时间API"><a href="#JAVA8日期时间API" class="headerlink" title="JAVA8日期时间API"></a>JAVA8日期时间API</h4><p>Java 8中 java.util.Date 类新增了两个方法，分别是<strong>from(Instant instant)</strong>和<strong>toInstant()</strong>方法。</p>
+<p>这两个方法使我们可以方便的实现将旧的日期类转换为新的日期类，具体思路都是通过Instant当中介，然后通过Instant来创建LocalDateTime（这个类可以很容易获取LocalDate和LocalTime），新的日期类转旧的也是如此，将新的先转成LocalDateTime，然后获取Instant，接着转成Date。</p>
+<p><code>java.time包</code> 是在JDK8引入的，提供了用于日期、时间、实例和周期的主要API。所有的类都是<strong>线程安全</strong>的</p>
+<ul>
+<li>ZoneId：时区ID，用来确定Instant和LocalDateTime互相转换的规则</li>
+<li>Instant：用来表示时间线上的一个点</li>
+<li>LocalDate：表示没有时区的日期，LocalDate是不可变并且线程安全的</li>
+<li>LocalTime：表示没有时区的时间，LocalTime是不可变并且线程安全的</li>
+<li>LocalDateTime：表示没有时区的日期时间，LocalDateTime是不可变并且线程安全的</li>
+<li>Clock：时钟，用于访问当前时刻、日期、时间，用到时区</li>
+<li>Duration：用秒和纳秒表示时间的数量</li>
+<li>Year：表示年份</li>
+<li>Month：表示月份</li>
+<li>YearMonth：表示年月</li>
+<li>MonthDay：表示月日</li>
+<li>DayOfWeek：存储星期的一天</li>
+<li>DateTimeFormatter：在日期对象与字符串之间进行转换</li>
+<li>ChronoUnit：计算出两个时间点之间的时间距离，可按多种时间单位计算</li>
+<li>TemporalAdjuster：各种日期计算功能</li>
+</ul>
+<h4 id="Instant"><a href="#Instant" class="headerlink" title="Instant"></a>Instant</h4><blockquote>
+<p>它代表的是时间戳</p>
+</blockquote>
+<h4 id="LocalDate"><a href="#LocalDate" class="headerlink" title="LocalDate"></a>LocalDate</h4><blockquote>
+<p>LocalDate代表一个ISO格式(yyyy-MM-dd)的日期，如：2017-12-07，可以存储纪念日等日期。</p>
+</blockquote>
+<p>获取当前的日期：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LocalDate localDate = LocalDate.now();</span><br><span class="line">System.out.println(localDate);</span><br></pre></td></tr></table></figure>
+<p>输出：2017-12-07</p>
+<p>LocalDate可以指定特定的日期，调用of或parse方法返回该实例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LocalDate.of(<span class="number">2017</span>, <span class="number">07</span>, <span class="number">20</span>);</span><br><span class="line">LocalDate.parse(<span class="string">"2017-07-20"</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>明天</strong> </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LocalDate localDate = LocalDate.now().plusDays(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>减去一个月</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LocalDate prevMonth = LocalDate.now().minus(<span class="number">1</span>, ChronoUnit.MONTHS);</span><br></pre></td></tr></table></figure>
+<p><strong>每周中的星期</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DayOfWeek thursday = LocalDate.parse(<span class="string">"2017-07-20"</span>).getDayOfWeek();</span><br></pre></td></tr></table></figure>
+<p><strong>每月中的日</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> twenty = LocalDate.parse(<span class="string">"2017-07-20"</span>).getDayOfMonth();</span><br></pre></td></tr></table></figure>
+<p><strong>是否是闰年</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">boolean</span> leapYear = LocalDate.now().isLeapYear();</span><br></pre></td></tr></table></figure>
+<p><strong>日期之前</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">boolean</span> notBefore = LocalDate.parse(<span class="string">"2017-07-20"</span>).isBefore(LocalDate.parse(<span class="string">"2017-07-22"</span>));</span><br></pre></td></tr></table></figure>
+<p><strong>日期之后</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">boolean</span> isAfter = LocalDate.parse(<span class="string">"2017-07-20"</span>).isAfter(LocalDate.parse(<span class="string">"2017-07-22"</span>));</span><br></pre></td></tr></table></figure>
+<p><strong>日期相同</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">boolean</span> isSame = LocalDate.parse(<span class="string">"2017-07-20"</span>).isAfter(LocalDate.parse(<span class="string">"2017-07-20"</span>));</span><br></pre></td></tr></table></figure>
+<p><strong>获取这个月的第一天</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LocalDate first = LocalDate.now().with(TemporalAdjusters.firstDayOfMonth());</span><br></pre></td></tr></table></figure>
+<p><strong>判断生日</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">LocalDate birthday = LocalDate.of(<span class="number">2017</span>,<span class="number">12</span>,<span class="number">07</span>);</span><br><span class="line">MonthDay birthdayMd  = MonthDay.of(birthday.getMonth(), birthday.getDayOfMonth());</span><br><span class="line">MonthDay today = MonthDay.from(LocalDate.now());</span><br><span class="line"><span class="keyword">boolean</span> isBirthday = today.equals(birthdayMd)</span><br></pre></td></tr></table></figure>
+<h4 id="LocalTime"><a href="#LocalTime" class="headerlink" title="LocalTime"></a>LocalTime</h4><blockquote>
+<p>表示一个时间，而不是日期，如：20:16:34.963</p>
+</blockquote>
+<p><strong>现在的时间</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LocalTime now = LocalTime.now();</span><br></pre></td></tr></table></figure>
+<p><strong>字符串解析为LocalTime</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LocalTime nowTime = LocalTime.parse(<span class="string">"15:02"</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>使用of创建一个时间</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LocalTime nowTime = LocalTime.of(<span class="number">15</span>, <span class="number">02</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>使用字符串解析并添加一小时</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LocalTime nowTime = LocalTime.parse(<span class="string">"15:02"</span>).plus(<span class="number">1</span>, ChronoUnit.HOURS);</span><br></pre></td></tr></table></figure>
+<p><strong>获取时间的小时、分钟、秒</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int hour = LocalTime.parse(&quot;15:02&quot;).getHour();</span><br><span class="line">int minute = LocalTime.parse(&quot;15:02&quot;).getMinute();</span><br><span class="line">int second = LocalTime.parse(&quot;15:02&quot;).getSecond()</span><br></pre></td></tr></table></figure>
+<p><strong>判断时间前后</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">boolean</span> isBefore = LocalTime.parse(<span class="string">"15:02"</span>).isBefore(LocalTime.parse(<span class="string">"16:02"</span>));</span><br><span class="line"><span class="keyword">boolean</span> isAfter = LocalTime.parse(<span class="string">"15:02"</span>).isAfter(LocalTime.parse(<span class="string">"16:02"</span>));</span><br></pre></td></tr></table></figure>
+<h4 id="LocalDateTime"><a href="#LocalDateTime" class="headerlink" title="LocalDateTime"></a>LocalDateTime</h4><blockquote>
+<p>LocalDateTime是用来表示日期和时间的，不过还是没有偏移信息或者说时区。如：2017-12-07T20:17:04.199</p>
+</blockquote>
+<p><strong>获取当前的日期和时间</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LocalDateTime now = LocalDateTime.now();</span><br></pre></td></tr></table></figure>
+<p><strong>使用静态方法和字符串创建LocalDateTime对象</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LocalDateTime.of(<span class="number">2017</span>, Month.JULY, <span class="number">20</span>, <span class="number">15</span>, <span class="number">18</span>, <span class="number">10</span>);</span><br><span class="line">LocalDateTime.parse(<span class="string">"2017-07-20T15:18:10"</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>日期增减</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">LocalDateTime tomorrow = now.plusDays(<span class="number">1</span>);</span><br><span class="line">System.out.println(<span class="string">"明天的这个时间: "</span> + tomorrow);</span><br><span class="line">LocalDateTime minusTowHour = now.minusHours(<span class="number">2</span>);</span><br><span class="line">System.out.println(<span class="string">"两小时前: "</span> + minusTowHour);</span><br></pre></td></tr></table></figure>
+<p><strong>该类也提供一系列的get方法来获取特定单位</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Month month = LocalDateTime.now().getMonth();</span><br></pre></td></tr></table></figure>
+<p><strong>使用</strong>DateTimeFormatter<strong>的</strong>format<strong>方法将日期、时间格式化为字符串</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(<span class="string">"yyyy-MM-dd"</span>);</span><br><span class="line">String dateString = dateTimeFormatter.format(LocalDate.now());</span><br><span class="line"></span><br><span class="line">DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(<span class="string">"yyyy-MM-dd hh:mm:ss"</span>);</span><br><span class="line">String dateString = dateTimeFormatter.format(LocalDateTime.now());</span><br></pre></td></tr></table></figure>
+<h4 id="Period"><a href="#Period" class="headerlink" title="Period"></a>Period</h4><blockquote>
+<p>日期周期，用于修改给定日期或获得的两个日期之间的区别</p>
+</blockquote>
+<p><strong>日期+5</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">LocalDate initialDate = LocalDate.parse(<span class="string">"2017-07-20"</span>);</span><br><span class="line">LocalDate finalDate   = initialDate.plus(Period.ofDays(<span class="number">5</span>));</span><br><span class="line">System.out.println(<span class="string">"初始化日期: "</span> + initialDate);  <span class="comment">//2017-12-07</span></span><br><span class="line">System.out.println(<span class="string">"加日期之后: "</span> + finalDate);    <span class="comment">//2017-12-10</span></span><br></pre></td></tr></table></figure>
+<p>周期API中提供给我们可以比较两个日期的差别，像下面这样获取差距天数:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">long</span> between = ChronoUnit.DAYS.between(initialDate, finalDate);</span><br><span class="line">System.out.println(<span class="string">"差距天数: "</span> + between);</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LocalDate initialDate = LocalDate.of(<span class="number">2017</span>,<span class="number">7</span>,<span class="number">20</span>);</span><br><span class="line">LocalDate finalDate   = LocalDate.of(<span class="number">2016</span>,<span class="number">7</span>,<span class="number">21</span>);</span><br><span class="line">System.out.println(finalDate.until(initialDate, ChronoUnit.DAYS));  <span class="comment">//364</span></span><br></pre></td></tr></table></figure>
+<h4 id="ZonedDateTime"><a href="#ZonedDateTime" class="headerlink" title="ZonedDateTime"></a>ZonedDateTime</h4><blockquote>
+<p> 这是一个包含时区的完整的日期时间，偏移量是以UTC/格林威治时间为基准的。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZonedDateTime zonedDateTime = ZonedDateTime.now();  <span class="comment">//2017-12-07T21:47:52.495+08:00[Asia/Shanghai]</span></span><br></pre></td></tr></table></figure>
+<h4 id="OffsetDateTime"><a href="#OffsetDateTime" class="headerlink" title="OffsetDateTime"></a>OffsetDateTime</h4><blockquote>
+<p>实际上包含了LocalDateTime与ZoneOffset。它用来表示一个包含格林威治时间偏移量（+/-小时：分，比如+06:00或者 -08：00）的完整的日期（年月日）及时间（时分秒，纳秒）。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">LocalDateTime localDateTime = LocalDateTime.of(<span class="number">2016</span>, Month.JULY, <span class="number">14</span>, <span class="number">14</span>,<span class="number">20</span>);</span><br><span class="line">ZoneOffset zoneOffset = ZoneOffset.of(<span class="string">"+8"</span>);</span><br><span class="line">OffsetDateTime offsetDateTime = OffsetDateTime.of(localDateTime, zoneOffset);</span><br><span class="line">System.out.println(offsetDateTime); <span class="comment">//2016-07-14T14:20+08:00</span></span><br></pre></td></tr></table></figure>
+<h4 id="转换"><a href="#转换" class="headerlink" title="转换"></a>转换</h4><p><strong>Date和Instant互相转换</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Instant instant = Instant.now();		<span class="comment">//2017-12-07T11:27:07.005Z</span></span><br><span class="line">Date date = Date.from(instant);			<span class="comment">//Thu Dec 07 19:27:07 CST 2017</span></span><br><span class="line">Instant instant1 = date.toInstant();	<span class="comment">//2017-12-07T11:27:07.005Z</span></span><br></pre></td></tr></table></figure>
+<p><strong>Date转LocalDateTime</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Date date = <span class="keyword">new</span> Date();		<span class="comment">//Thu Dec 07 19:33:20 CST 2017</span></span><br><span class="line">Instant instant = date.toInstant();		<span class="comment">//2017-12-07T11:33:20.218Z</span></span><br><span class="line">ZoneId zoneId = ZoneId.systemDefault();	<span class="comment">//Asia/Shanghai</span></span><br><span class="line">LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, zoneId);	<span class="comment">//2017-12-07T19:33:20.218</span></span><br></pre></td></tr></table></figure>
+<p><strong>LocalDateTime转Date</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">LocalDateTime localDateTime = LocalDateTime.now();	<span class="comment">//2017-12-07T19:47:49.385</span></span><br><span class="line">ZonedDateTime zonedDateTime = localDateTime.atZone(ZoneId.systemDefault()); <span class="comment">//2017-12-07T19:47:49.385+08:00[Asia/Shanghai]</span></span><br><span class="line">Instant instant = zonedDateTime.toInstant();	<span class="comment">//2017-12-07T11:47:49.385Z</span></span><br><span class="line">Date date = Date.from(instant);	<span class="comment">//Thu Dec 07 19:47:49 CST 2017</span></span><br></pre></td></tr></table></figure>
+<p><strong>LocalDate转Date</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">LocalDate localDate = LocalDate.now();	<span class="comment">//2017-12-07</span></span><br><span class="line">LocalDateTime localDateTime = localDate.atStartOfDay();		<span class="comment">//2017-12-07T00:00</span></span><br><span class="line">ZoneId zone = ZoneId.systemDefault();</span><br><span class="line">ZonedDateTime zonedDateTime = localDateTime.atZone(zone);		<span class="comment">//2017-12-07T00:00+08:00[Asia/Shanghai]</span></span><br><span class="line">Date date = Date.from(zonedDateTime.toInstant());	<span class="comment">//Thu Dec 07 00:00:00 CST 2017</span></span><br></pre></td></tr></table></figure>
+<p><strong>Date转LocalDate</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Date date = <span class="keyword">new</span> Date();		<span class="comment">//Thu Dec 07 19:33:20 CST 2017</span></span><br><span class="line">Instant instant = date.toInstant();		<span class="comment">//2017-12-07T11:33:20.218Z</span></span><br><span class="line">ZoneId zoneId = ZoneId.systemDefault();	<span class="comment">//Asia/Shanghai</span></span><br><span class="line">LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, zoneId);	<span class="comment">//2017-12-07T19:33:20.218</span></span><br><span class="line">LocalDate localDate = localDateTime.toLocalDate(); <span class="comment">//2017-12-07</span></span><br></pre></td></tr></table></figure>
+<p><strong>Date转LocalTime</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Date date = <span class="keyword">new</span> Date();	<span class="comment">//Thu Dec 07 19:33:20 CST 2017</span></span><br><span class="line">Instant instant = date.toInstant();	<span class="comment">//2017-12-07T11:33:20.218Z</span></span><br><span class="line">ZoneId zoneId = ZoneId.systemDefault();	<span class="comment">//Asia/Shanghai</span></span><br><span class="line">LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, zoneId);<span class="comment">//2017-12-07T19:33:20.218</span></span><br><span class="line">LocalTime localTime = localDateTime.toLocalTime();<span class="comment">//19:33:20.218</span></span><br></pre></td></tr></table></figure>
+<p><strong>LocalTime转Date</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">LocalTime localTime = LocalTime.now();	<span class="comment">//21:41:29.072</span></span><br><span class="line">LocalDate localDate = LocalDate.now();	<span class="comment">//2017-12-07</span></span><br><span class="line">LocalDateTime localDateTime = LocalDateTime.of(localDate, localTime);	<span class="comment">//2017-12-07T21:41:29.072</span></span><br><span class="line">ZoneId zoneId = ZoneId.systemDefault();  <span class="comment">//Asia/Shanghai</span></span><br><span class="line">Instant instant = localDateTime.atZone(zoneId).toInstant();	<span class="comment">//2017-12-07T13:41:29.072Z</span></span><br><span class="line">Date date = Date.from(instant);	<span class="comment">//Thu Dec 07 21:41:29 CST 2017</span></span><br></pre></td></tr></table></figure>
+<h4 id="java-util-Date到新库类的转换"><a href="#java-util-Date到新库类的转换" class="headerlink" title="java.util.Date到新库类的转换"></a>java.util.Date到新库类的转换</h4><p>转换可通过下面的方法进行。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Date.toInstant()</span><br><span class="line">Date.from(Instant)</span><br><span class="line">Calendar.toInstant()</span><br></pre></td></tr></table></figure>
+<h4 id="Clock"><a href="#Clock" class="headerlink" title="Clock"></a>Clock</h4><blockquote>
+<p>Clock提供了对当前时间和日期的访问功能。Clock是对当前时区敏感的，并可用于替代System.currentTimeMillis()方法来获取当前的毫秒时间。当前时间线上的时刻可以用Instance类来表示。Instance也能够用于创建原先的java.util.Date对象。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Clock clock=Clock.systemUTC();<span class="comment">//获取格林尼治时间</span></span><br><span class="line">System.out.println(clock.instant());<span class="comment">//获取Instant类型数据，后面会讲到</span></span><br><span class="line">System.out.println(clock.millis());<span class="comment">//获取标准毫秒数</span></span><br></pre></td></tr></table></figure>
+<h4 id="DateTimeFormatter"><a href="#DateTimeFormatter" class="headerlink" title="DateTimeFormatter"></a>DateTimeFormatter</h4><blockquote>
+<p>在日期对象与字符串之间进行转换</p>
+</blockquote>
+<p><strong>DateTimeFormatter与SimpleDateFormat的区别</strong></p>
+<ul>
+<li>Java8的DateTimeFormatter也是线程安全的，而SimpleDateFormat并不是线程安全</li>
+</ul>
+<p><strong>获取DateTimeFormatter对象的三种方式</strong></p>
+<ul>
+<li>直接使用静态常量创建DateTimeFormatter格式器</li>
+<li>使用代码不同风格的枚举值来创建DateTimeFormatter格式器</li>
+<li>根据模式字符串来创建DateTimeFormatter格式器</li>
+</ul>
+<p><strong>DateTimeFormatter完成格式化</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">DateTimeFormatter[] formatters = <span class="keyword">new</span> DateTimeFormatter[]&#123;</span><br><span class="line">  <span class="comment">//直接使用常量创建DateTimeFormatter格式器</span></span><br><span class="line">  DateTimeFormatter.ISO_LOCAL_DATE,   <span class="comment">//2017-12-08</span></span><br><span class="line">  DateTimeFormatter.ISO_LOCAL_TIME,   <span class="comment">//16:48:56.944</span></span><br><span class="line">  DateTimeFormatter.ISO_LOCAL_DATE_TIME,  <span class="comment">//2017-12-08T16:48:56.944</span></span><br><span class="line">  <span class="comment">//使用本地化的不同风格来创建DateTimeFormatter格式器</span></span><br><span class="line">  DateTimeFormatter.ofLocalizedTime(FormatStyle.LONG),    <span class="comment">//下午04时48分56秒</span></span><br><span class="line">  DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL),    <span class="comment">//2017年12月8日 星期五</span></span><br><span class="line">  DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM),    <span class="comment">//2017年12月8日 星期五 16:48:56</span></span><br><span class="line">  <span class="comment">// 根据模式字符串来创建DateTimeFormatter格式器</span></span><br><span class="line">  DateTimeFormatter.ofPattern(<span class="string">"GyyyyMMMdd HH:mm:ss"</span>)  <span class="comment">//公元2017十二月08 16:53:46</span></span><br><span class="line">&#125;;</span><br><span class="line">LocalDateTime date = LocalDateTime.now();</span><br><span class="line"><span class="comment">// 依次使用不同的格式器对LocalDateTime进行格式化</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; formatters.length ; i++)</span><br><span class="line">&#123;</span><br><span class="line">  System.out.println(date.format(formatters[i]));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>DateTimeFormatter解析字符串</strong></p>
+<ul>
+<li>根据需求的日期时间字符串，定义解析所用的格式器</li>
+<li>执行解析XX.parse(string, fomatter)</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义一个任意格式的日期时间字符串</span></span><br><span class="line">String str1 = <span class="string">"2017==12==07 17时00分00秒"</span>;</span><br><span class="line"><span class="comment">// 根据需要解析的日期、时间字符串定义解析所用的格式器</span></span><br><span class="line">DateTimeFormatter fomatter1 = DateTimeFormatter.ofPattern(<span class="string">"yyyy==MM==dd HH时mm分ss秒"</span>);</span><br><span class="line"><span class="comment">// 执行解析</span></span><br><span class="line">LocalDateTime dt1 = LocalDateTime.parse(str1, fomatter1); <span class="comment">//2017-12-07T17:00</span></span><br></pre></td></tr></table></figure>
+<h4 id="ChronoUnit"><a href="#ChronoUnit" class="headerlink" title="ChronoUnit"></a>ChronoUnit</h4><blockquote>
+<p>计算出两个时间点之间的时间距离，可按多种时间单位计算</p>
+</blockquote>
+<h4 id="TemporalAdjuster"><a href="#TemporalAdjuster" class="headerlink" title="TemporalAdjuster"></a>TemporalAdjuster</h4><blockquote>
+<p>各种日期计算功能</p>
+</blockquote>
+<p><strong>从Year获取LocalDate</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Year year = Year.now();</span><br><span class="line">LocalDate localDate = year.atDay(<span class="number">59</span>);  <span class="comment">//2017-02-28</span></span><br></pre></td></tr></table></figure>
+<p><strong>把LocalTime关联到一个LocalDate得到一个LocalDateTime</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LocalTime localTime = LocalTime.now();</span><br><span class="line">LocalDateTime localDateTime = localTime.atDate(localDate);	<span class="comment">//2017-02-28T20:44:40.822</span></span><br></pre></td></tr></table></figure>
+<p><strong>从Year获取YearMonth</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">YearMonth yearMonth = year.atMonth(<span class="number">2</span>);	<span class="comment">//2017-02</span></span><br></pre></td></tr></table></figure>
+<p><strong>YearMonth指定日得到LocalDate</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LocalDate localDate1 = yearMonth.atDay(<span class="number">28</span>);	<span class="comment">//2017-02-28</span></span><br></pre></td></tr></table></figure>
+<p><strong>解析字符串形式的日期时间</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">DateTimeFormatter formatter = DateTimeFormatter.ofPattern(<span class="string">"yyyy MM dd"</span>);</span><br><span class="line">TemporalAccessor temporalAccessor = formatter.parse(<span class="string">"2013 01 15"</span>);</span><br><span class="line">LocalDate localDate = LocalDate.from(temporalAccessor);</span><br><span class="line">System.out.println(<span class="string">"TemporalAccessor :"</span> +localDate); <span class="comment">//TemporalAccessor :2013-01-15</span></span><br></pre></td></tr></table></figure>
+<p><strong>计算某月的第一个星期一的日期</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">TemporalAdjuster temporalAdjuster = TemporalAdjusters.firstInMonth(DayOfWeek.MONDAY);</span><br><span class="line">LocalDate localDate = LocalDate.now();</span><br><span class="line">LocalDate localDate1 = localDate.with(temporalAdjuster);</span><br><span class="line">System.out.println(localDate1);	<span class="comment">//2017-12-04(12月的第一个周一)</span></span><br></pre></td></tr></table></figure>
+<p><strong>计算某月第一天的日期</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">TemporalAdjuster temporalAdjuster = TemporalAdjusters.firstDayOfMonth();</span><br><span class="line">LocalDate localDate = LocalDate.now();</span><br><span class="line">LocalDate localDate1 = localDate.with(temporalAdjuster);</span><br><span class="line">System.out.println(localDate1);	<span class="comment">//2017-12-01</span></span><br></pre></td></tr></table></figure>
+<p><strong>计算LocalDate的下一个星期一的日期</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">TemporalAdjuster temporalAdjuster = TemporalAdjusters.next(DayOfWeek.MONDAY);</span><br><span class="line">LocalDate localDate = LocalDate.now();</span><br><span class="line">LocalDate localDate1 = localDate.with(temporalAdjuster);</span><br><span class="line">System.out.println(localDate1);	<span class="comment">//2017-12-11</span></span><br></pre></td></tr></table></figure>
+<p>该包的API提供了大量相关的方法，这些方法一般有一致的方法前缀：</p>
+<ul>
+<li>of：静态工厂方法。</li>
+<li>parse：静态工厂方法，关注于解析。</li>
+<li>get：获取某些东西的值。</li>
+<li>is：检查某些东西的是否是true。</li>
+<li>with：不可变的setter等价物。</li>
+<li>plus：加一些量到某个对象。</li>
+<li>minus：从某个对象减去一些量。</li>
+<li>to：转换到另一个类型。</li>
+<li>at：把这个对象与另一个对象组合起来，例如：<code>date.atTime(time)</code>。</li>
+</ul>
 
       
 
@@ -193,7 +366,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/04/15/hello-world/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/04/15/日期和时间实用技巧/">展开全文 >></a>
         </p>
       
 
