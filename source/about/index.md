@@ -5,7 +5,7 @@ title: 关于小姐姐
 #### <center>曾凯柔<center>
 
 ---
-<center>原本是前端开发的深圳某厂Java开发工程师</center>
+<center>半年前端开发的深圳某厂Java开发工程师</center>
 
 ---
 

@@ -137,13 +137,12 @@ social:
   #YouTube: https://youtube.com/yourname || youtube
   Instagram: https://www.instagram.com/kris_z1228/ || instagram
   #Skype: skype:yourname?call|chat || skype
-  微博: http://weibo.com/zkrkr
+  新浪微博: http://weibo.com/zkrkr || weibo
 
 social_icons:
   enable: true
   icons_only: true
   transition: false
-  微博: weibo
 
 # Blog rolls
 links_icon: link
@@ -163,7 +162,7 @@ toc:
   enable: true
 
   # Automatically add list number to toc.
-  number: true
+  number: false
 
   # If true, all words will placed on next lines if header width longer then sidebar width.
   wrap: false
@@ -279,7 +278,7 @@ custom_logo:
 # Available value:
 #    normal | night | night eighties | night blue | night bright
 # https://github.com/chriskempson/tomorrow-theme
-highlight_theme: normal
+highlight_theme: night eighties
 
 
 # ---------------------------------------------------------------

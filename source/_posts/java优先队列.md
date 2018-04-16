@@ -1,9 +1,7 @@
 ---
 title: Java优先队列 PiorityOueue
 author: Kairou Zeng
-tags:
-    - java
-    - 优先队列
+tags: [java,优先队列]
 ---
 
 ### Java优先队列 PiorityOueue
