@@ -1,5 +1,5 @@
 ---
-title: Java优先队列 PiorityOueue
+title: Java优先队列 PiorityQueue
 author: Kairou Zeng
 date: 2017/10/15
 tags: [java,优先队列]
