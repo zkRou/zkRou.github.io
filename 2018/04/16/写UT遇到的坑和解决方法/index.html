@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="java,优先队列," />
+  <meta name="keywords" content="单元测试," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="PriorityQueue是个基于优先级堆的极大优先级队列,PriorityQueue的排序不是普通的排序，而是堆排序。 排序方式：  自然排序：根据元素的自然顺序来指定排序(参阅Comparable)，也就是数字默认是小的在队列头，字符串则按字典序排列，也可以根据 Comparator来指定，这取决于使用哪种构造方法。 定制排序：根据Comparator来指定，使用Comparator类来重写c">
-<meta name="keywords" content="java,优先队列">
+<meta name="description" content="问题场景： 发送短信验证码的接口，验证码是一个由Util工具类生成的随机数，业务层需要验证结果 解决方案： 使用PowerMock  PowerMock扩展了EasyMock和Mockito框架，增加对static、final、私有方法的支持。  PowerMock有两个重要的注解：  @RunWith(PowerMockRunner.class) @PrepareForTest({YourCl">
+<meta name="keywords" content="单元测试">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java优先队列 PiorityQueue">
-<meta property="og:url" content="http://yoursite.com/2017/10/15/java优先队列/index.html">
+<meta property="og:title" content="写UT遇到的坑和解决方法">
+<meta property="og:url" content="http://yoursite.com/2018/04/16/写UT遇到的坑和解决方法/index.html">
 <meta property="og:site_name" content="后端小姐姐der小本本">
-<meta property="og:description" content="PriorityQueue是个基于优先级堆的极大优先级队列,PriorityQueue的排序不是普通的排序，而是堆排序。 排序方式：  自然排序：根据元素的自然顺序来指定排序(参阅Comparable)，也就是数字默认是小的在队列头，字符串则按字典序排列，也可以根据 Comparator来指定，这取决于使用哪种构造方法。 定制排序：根据Comparator来指定，使用Comparator类来重写c">
+<meta property="og:description" content="问题场景： 发送短信验证码的接口，验证码是一个由Util工具类生成的随机数，业务层需要验证结果 解决方案： 使用PowerMock  PowerMock扩展了EasyMock和Mockito框架，增加对static、final、私有方法的支持。  PowerMock有两个重要的注解：  @RunWith(PowerMockRunner.class) @PrepareForTest({YourCl">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-21T12:02:31.000Z">
+<meta property="og:updated_time" content="2018-07-08T03:03:51.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java优先队列 PiorityQueue">
-<meta name="twitter:description" content="PriorityQueue是个基于优先级堆的极大优先级队列,PriorityQueue的排序不是普通的排序，而是堆排序。 排序方式：  自然排序：根据元素的自然顺序来指定排序(参阅Comparable)，也就是数字默认是小的在队列头，字符串则按字典序排列，也可以根据 Comparator来指定，这取决于使用哪种构造方法。 定制排序：根据Comparator来指定，使用Comparator类来重写c">
+<meta name="twitter:title" content="写UT遇到的坑和解决方法">
+<meta name="twitter:description" content="问题场景： 发送短信验证码的接口，验证码是一个由Util工具类生成的随机数，业务层需要验证结果 解决方案： 使用PowerMock  PowerMock扩展了EasyMock和Mockito框架，增加对static、final、私有方法的支持。  PowerMock有两个重要的注解：  @RunWith(PowerMockRunner.class) @PrepareForTest({YourCl">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/10/15/java优先队列/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/04/16/写UT遇到的坑和解决方法/"/>
 
 
 
 
 
-  <title>Java优先队列 PiorityQueue | 后端小姐姐der小本本</title>
+  <title>写UT遇到的坑和解决方法 | 后端小姐姐der小本本</title>
   
 
 
@@ -287,7 +287,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/15/java优先队列/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/16/写UT遇到的坑和解决方法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Kris">
@@ -304,7 +304,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Java优先队列 PiorityQueue</h1>
+          <h1 class="post-title" itemprop="name headline">写UT遇到的坑和解决方法</h1>
         
 
         <div class="post-meta">
@@ -316,8 +316,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-15T00:00:00+08:00">
-                2017-10-15
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-16T00:00:00+08:00">
+                2018-04-16
               </time>
             
 
@@ -354,16 +354,33 @@
       
 
       
-        <p><code>PriorityQueue</code>是个基于优先级堆的极大优先级队列,PriorityQueue的排序不是普通的排序，而是堆排序。</p>
-<p>排序方式：</p>
+        <hr>
+<p><strong>问题场景：</strong> 发送短信验证码的接口，验证码是一个由Util工具类生成的随机数，业务层需要验证结果</p>
+<p><strong>解决方案：</strong> 使用PowerMock</p>
+<blockquote>
+<p>PowerMock扩展了EasyMock和Mockito框架，增加对static、final、私有方法的支持。</p>
+</blockquote>
+<p><code>PowerMock</code>有两个重要的注解：</p>
 <ul>
-<li>自然排序：根据元素的自然顺序来指定排序(参阅Comparable)，也就是数字默认是小的在队列头，字符串则按字典序排列，也可以根据 Comparator来指定，这取决于使用哪种构造方法。</li>
-<li>定制排序：根据Comparator来指定，使用Comparator类来重写compare(Object o1,Object o2)方法来实现定制排序</li>
+<li><code>@RunWith(PowerMockRunner.class)</code></li>
+<li><code>@PrepareForTest({YourClassEgStaticMethod.class})</code></li>
 </ul>
-<p>PriorityQueue对元素采用的是堆排序，头是按指定排序方式的最小元素。堆排序只能保证根是最大（最小），整个堆并不是有序的。</p>
-<p>优先级队列不允许null元素，依靠自然排序的优先级队列还不允许插入不可比较的对象(这样做可能导致ClassCastException)</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.PriorityQueue;  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PriorityQueueTest3</span>   </span></span><br><span class="line"><span class="class"></span>&#123;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span>   </span></span><br><span class="line"><span class="function">    </span>&#123;  </span><br><span class="line">        PriorityQueue pq = <span class="keyword">new</span> PriorityQueue();  </span><br><span class="line">        pq.offer(<span class="number">6</span>);  </span><br><span class="line">        pq.offer(-<span class="number">3</span>);  </span><br><span class="line">        pq.offer(<span class="number">0</span>);  </span><br><span class="line">        pq.offer(<span class="number">9</span>);  </span><br><span class="line">        System.out.println(pq);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>堆排序只会保证第一个元素(根节点)的元素是当前优先队列里面最小(或者最大)的元素，而且每一次变化之后，比如offer()或者poll()之后，都会进行堆重排，所以如果想要按从小到大的顺序取出元素，那么需要用一个for循环,如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.PriorityQueue;  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PriorityQueueTest3</span>   </span></span><br><span class="line"><span class="class"></span>&#123;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span>   </span></span><br><span class="line"><span class="function">    </span>&#123;  </span><br><span class="line">        PriorityQueue pq = <span class="keyword">new</span> PriorityQueue();  </span><br><span class="line">        pq.offer(<span class="number">6</span>);  </span><br><span class="line">        pq.offer(-<span class="number">3</span>);  </span><br><span class="line">        pq.offer(<span class="number">0</span>);  </span><br><span class="line">        pq.offer(<span class="number">9</span>);  </span><br><span class="line">        <span class="keyword">int</span> len = pq.size();<span class="comment">//这里之所以取出.size()大小，因为每一次poll()之后size大小都会变化，所以不能作为for循环的判断条件  </span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;i++)&#123;  </span><br><span class="line">            System.out.print(pq.poll()+<span class="string">" "</span>);  </span><br><span class="line">        &#125;  </span><br><span class="line">        System.out.println();  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果你的测试用例没有使用注解<code>@PrepareForTest</code>,那么可以不用加注解<code>@RunWith(PowerMockRunner.class)</code>,反之亦然。当你需要使用PowerMock强大功能(Mock静态、final、私有方法等)的时候，就需要加注解<code>@PrepareForTest</code>.</p>
+<p>当某个测试方法被注解<code>@PrepareForTest</code>标注以后，在运行测试用例时，会创建一个新的<code>org.powermock.core.classloader.MockClassLoader</code>实例，然后加载该测试用例使用到的类(系统类除外)</p>
+<p><code>PowerMock</code>会根据你的mock要求，去修改写在注解<code>@PrepareForTest</code>里的class文件(当前测试类会自动加入注解中),以满足特殊的mock需求.例如:去除final方法的final标识,在静态方法的最前面加入自己的虚拟实现等。</p>
+<p>如果需要mock的是系统类的final方法和静态方法,<code>PowerMock</code>不会直接修改系统类的class文件，而是修改调用系统类的class文件,以满足mock需求.</p>
+<ul>
+<li>验证静态方法</li>
+</ul>
+<p>PowerMockito.verifyStatic(); </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PowerMockito.verifyStatic(Mockito.times(<span class="number">2</span>)); <span class="comment">//被调用两次</span></span><br></pre></td></tr></table></figure>
+<p>Static.firstStaticMethod(param);</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tatic.thirdStaticMethod(Mockito.anyInt()); <span class="comment">// 以任何整数值被调用</span></span><br></pre></td></tr></table></figure>
+<p><strong>实际解决代码：</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootTest</span></span><br><span class="line"><span class="meta">@RunWith</span>(PowerMockRunner.class)</span><br><span class="line"><span class="meta">@PowerMockRunnerDelegate</span>(SpringRunner.class)</span><br><span class="line"><span class="meta">@AutoConfigureMockMvc</span></span><br><span class="line"><span class="meta">@PowerMockIgnore</span>(&#123;<span class="string">"javax.net.*"</span>, <span class="string">"javax.security.*"</span>&#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SmsVerificationCodeControllerTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> MockMvc mockMvc;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Mock</span></span><br><span class="line">    <span class="keyword">private</span> ThirdClient thirdClient;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@MockBean</span></span><br><span class="line">    <span class="keyword">private</span> SmsVerificationCodeDao smsVerificationCodeDao;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 发送短信验证码</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="meta">@PrepareForTest</span>(RandomUtils.class) </span><br><span class="line">    <span class="comment">//当mock静态方法、final方法时，必须加注解`@PrepareForTest`和`@RunWith`。注解`@PrepareForTest`里写的类是静态方法/final方法所在的类</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendVerificationCodeSms</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        String code = <span class="string">"000000"</span>;</span><br><span class="line">        String telephone = <span class="string">"136********"</span>;</span><br><span class="line"></span><br><span class="line">        Response response = <span class="keyword">new</span> Response();</span><br><span class="line">        response.setErrcode(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        PowerMockito.mockStatic(RandomUtils.class);</span><br><span class="line">        PowerMockito.when(RandomUtils.getCodeChars()).thenReturn(code.toCharArray());</span><br><span class="line">        BDDMockito.given(thirdClient.sendSmsVcode(telephone, code)).willReturn(kdCloudResponse);</span><br><span class="line"></span><br><span class="line">        mockMvc.perform(post(<span class="string">"/send/vcode"</span>)</span><br><span class="line">                .param(<span class="string">"telephone"</span>, telephone))</span><br><span class="line">                .andExpect(MockMvcResultMatchers.status().isOk())</span><br><span class="line">                .andExpect(MockMvcResultMatchers.jsonPath(<span class="string">"errcode"</span>).value(<span class="number">0</span>))</span><br><span class="line">                .andExpect(MockMvcResultMatchers.jsonPath(<span class="string">"description"</span>).value(<span class="string">"ok"</span>))</span><br><span class="line">                .andExpect(MockMvcResultMatchers.jsonPath(<span class="string">"data"</span>).isEmpty());</span><br><span class="line"></span><br><span class="line">        BDDMockito.verify(smsVerificationCodeDao).insert(any(), anyString());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p><strong>问题场景：</strong> 当遇到方法返回值为void,但又需要对返回值进行值相等判断时</p>
+<p><strong>解决方案：</strong> 使用<code>Mockito.doAnswer</code></p>
+<p><strong>实际解决代码：</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">loginWithNewUser</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    String username = <span class="string">"test@qq.com"</span>;</span><br><span class="line">    String password = <span class="string">"123456"</span>;</span><br><span class="line"></span><br><span class="line">    Mockito.doAnswer(invocation -&gt; &#123;</span><br><span class="line">        User user = (User) invocation.getArguments()[<span class="number">0</span>];</span><br><span class="line">        user.setId(<span class="string">"10000"</span>);</span><br><span class="line">        <span class="keyword">return</span> user;</span><br><span class="line">    &#125;).when(userDao).save(any(User.class));</span><br><span class="line"></span><br><span class="line">    mockMvc.perform(post(<span class="string">"/user/login"</span>)</span><br><span class="line">            .param(<span class="string">"username"</span>, username)</span><br><span class="line">            .param(<span class="string">"password"</span>, password))</span><br><span class="line">            .andExpect(MockMvcResultMatchers.status().isOk())</span><br><span class="line">            .andExpect(MockMvcResultMatchers.jsonPath(<span class="string">"errcode"</span>).value(<span class="number">0</span>))</span><br><span class="line">            .andExpect(MockMvcResultMatchers.jsonPath(<span class="string">"data.id"</span>).value(<span class="string">"10000"</span>));</span><br><span class="line"></span><br><span class="line">    BDDMockito.verify(kdUserDao).save(any());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -381,9 +398,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/java/" rel="tag"># java</a>
-          
-            <a href="/tags/优先队列/" rel="tag"># 优先队列</a>
+            <a href="/tags/单元测试/" rel="tag"># 单元测试</a>
           
         </div>
       
@@ -396,14 +411,18 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2018/03/20/Jmeter/" rel="next" title="Jmeter">
+                <i class="fa fa-chevron-left"></i> Jmeter
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/11/01/统一异常处理/" rel="prev" title="统一异常处理">
-                统一异常处理 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/04/21/HandlerInterceptorAdapter详解/" rel="prev" title="拦截器HandlerInterceptorAdapter的使用">
+                拦截器HandlerInterceptorAdapter的使用 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
