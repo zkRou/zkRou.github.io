@@ -12,7 +12,7 @@ title: 关于小姐姐
 <center>喜欢Mayday</center>
 <center>喜欢听电台</center>
 <center>看电影前和后都习惯看豆瓣</center>
-<center>emmm...想去台湾耍但一直没机费</center>
+<center>终于在2018年国庆去了想去的台湾并决定还要再去~</center>
 
 ---
 <center>欢迎关注非技术分享的微信公众号</center>
