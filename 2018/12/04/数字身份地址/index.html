@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/avatar.ico?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="区块链," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="为什么写需要开发一个新的数字身份服务项目，由于旧的数字身份服务中的账户地址是通过同事开发的权限链码获得，新的数字身份系统欲抛弃链码部分，因为没有找到有供Java使用的现成的生成该地址的库，因此需要使用Java来实现获取账户地址。 说明： 本文所描述的数字身份地址，即公钥经过多次哈希散列及处理的地址，即以太坊中用来识别账户的地址，原链码即参考比特币地址算法实现。 为什么需要这个地址地址是为了人们交换">
+<meta name="keywords" content="区块链">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Java计算数字身份地址">
+<meta property="og:url" content="http://yoursite.com/2018/12/04/数字身份地址/index.html">
+<meta property="og:site_name" content="凯柔的小本本">
+<meta property="og:description" content="为什么写需要开发一个新的数字身份服务项目，由于旧的数字身份服务中的账户地址是通过同事开发的权限链码获得，新的数字身份系统欲抛弃链码部分，因为没有找到有供Java使用的现成的生成该地址的库，因此需要使用Java来实现获取账户地址。 说明： 本文所描述的数字身份地址，即公钥经过多次哈希散列及处理的地址，即以太坊中用来识别账户的地址，原链码即参考比特币地址算法实现。 为什么需要这个地址地址是为了人们交换">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-12-16T03:15:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用Java计算数字身份地址">
+<meta name="twitter:description" content="为什么写需要开发一个新的数字身份服务项目，由于旧的数字身份服务中的账户地址是通过同事开发的权限链码获得，新的数字身份系统欲抛弃链码部分，因为没有找到有供Java使用的现成的生成该地址的库，因此需要使用Java来实现获取账户地址。 说明： 本文所描述的数字身份地址，即公钥经过多次哈希散列及处理的地址，即以太坊中用来识别账户的地址，原链码即参考比特币地址算法实现。 为什么需要这个地址地址是为了人们交换">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/04/数字身份地址/"/>
+
+
+
+
+
+  <title>使用Java计算数字身份地址 | 凯柔的小本本</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">凯柔的小本本</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/04/数字身份地址/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kris">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/kris-avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="凯柔的小本本">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用Java计算数字身份地址</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-04T00:00:00+08:00">
+                2018-12-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="为什么写"><a href="#为什么写" class="headerlink" title="为什么写"></a>为什么写</h2><p>需要开发一个新的数字身份服务项目，由于旧的数字身份服务中的账户地址是通过同事开发的权限链码获得，新的数字身份系统欲抛弃链码部分，因为没有找到有供Java使用的现成的生成该地址的库，因此需要使用Java来实现获取账户地址。</p>
+<p><em>说明：</em> 本文所描述的<code>数字身份地址</code>，即公钥经过多次哈希散列及处理的地址，即以太坊中用来识别账户的地址，原链码即参考比特币地址算法实现。</p>
+<h2 id="为什么需要这个地址"><a href="#为什么需要这个地址" class="headerlink" title="为什么需要这个地址"></a>为什么需要<code>这个地址</code></h2><p>地址是为了人们交换方便而弄出来的一个方案，因为公钥太长了。</p>
+<h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><h3 id="哈希-散列函数"><a href="#哈希-散列函数" class="headerlink" title="哈希/散列函数"></a>哈希/散列函数</h3><p><strong>典型算法：</strong> SHA，MD5</p>
+<p><strong>算法思想：</strong> </p>
+<ul>
+<li>如果两个散列值是不相同的，那么这两个散列值的原始输入也是不相同的，即使Hash(x) != Hash(y)</li>
+<li>用于信息压缩，并发现信息是否发生变化</li>
+<li>计算速度快，特定算法其结果长度统一</li>
+</ul>
+<h3 id="对称加密算法"><a href="#对称加密算法" class="headerlink" title="对称加密算法"></a>对称加密算法</h3><p><strong>典型算法：</strong> DES，AES</p>
+<p><strong>算法思想：</strong> </p>
+<ul>
+<li>加解密共用一个密钥</li>
+<li>加/解密速度快，但密钥分发及管理困难，密钥交换的安全性不能保障，不够安全(在数据传送前，发送方和接收方必须商定好密钥，然后双方都必须要保存好密钥，如果一方的密钥被泄露，那么加密信息也就不安全了。另外，每对用户每次使用对称加密算法时，都需要使用其他人不知道的唯一密钥，这会使得收、发双方所拥有的钥匙数量巨大，密钥管理成为双方的负担。)</li>
+<li>区块链主要使用ECC椭圆曲线算法</li>
+</ul>
+<h3 id="非对称加密算法"><a href="#非对称加密算法" class="headerlink" title="非对称加密算法"></a>非对称加密算法</h3><p><strong>典型算法：</strong> RSA，ECC</p>
+<p><strong>算法思想：</strong> </p>
+<ul>
+<li>加解密时，通讯一方有一对密钥（公钥和私钥）</li>
+<li>公钥可以公开，分发给任何人</li>
+<li>私钥不可以公开，严格持有</li>
+<li>公钥加密，只能用私钥解密，反之亦然</li>
+<li>加/解密速度较慢，但无密钥分发问题</li>
+</ul>
+<h3 id="数字签名"><a href="#数字签名" class="headerlink" title="数字签名"></a>数字签名</h3><p><strong>目的：</strong> </p>
+<ul>
+<li>检测数据未经授权的修改，签名者的身份识别和抗抵赖。</li>
+<li>数字证书体系也是以此为核心:<br>  如果A有数字身份，则:<pre><code>1. A有自己的一对公钥和私钥；
+2. 数字身份的发证机关，证明了这个公钥对应的持有人是张三）。
+</code></pre></li>
+</ul>
+<h3 id="数字证书"><a href="#数字证书" class="headerlink" title="数字证书"></a>数字证书</h3><blockquote>
+<p>是由认证中心/证书颁发机构(CA)发放并经认证中心数字签名的，可以用来证明数字证书持有者的真实身份，并且数字证书只在特定的时间段内有效。<br>数字证书采用公钥体制，即利用一对相互匹配的密钥进行加密、解密。每个用户自己设定一把特定的仅为本人所知的私钥，用它进行解密和签名；同时，设定一把公钥并由本人公开，为一组用户所共享，用于加密和验证签名。当发送一份保密文件时，发送方使用接收方的公钥对数据加密，而接收方则使用自己的私钥解密，这样信息就可以安全无误地到达目的地了。通过数字的手段保证加密过程是一个不可逆过程，即只有用私钥才能解密。在公开密钥密码体制(PKI)中，常用的一种是RSA体制。<br>数字证书包含证书中所标识的实体的公钥（即你的证书里有你的公钥），由于证书将公钥与特定的个人匹配，并且该证书的真实性由颁发机构保证，因此，数字证书为如何找到用户的公钥并知道它是否有效这一问题提供了解决方案。<br>用户也可以采用自己的私钥对信息加以处理，由于密钥为本人所有，这样就产生了别人无法生成的文件，也就形成了<code>数字签名</code>。采用<code>数字签名</code>能够确认以下两点：</p>
+<ul>
+<li>保证信息是由签名者自己签名发送的，签名者不能否认或难以否认；</li>
+<li>保证信息自签发后到收到为止未曾作过任何修改，签发的文件是真实文件。</li>
+</ul>
+</blockquote>
+<ul>
+<li>数字证书采用公钥体制:<ul>
+<li>数字证书是”公钥+证书名称信息+签发机构对证书的数字签名”、匹配的私钥</li>
+<li>数字证书遵从X.509国际标准</li>
+</ul>
+</li>
+</ul>
+<h3 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h3><p>如果A给B发送一个加密的有数字签名的文件，会怎么样呢？<br>首先A有自己的公钥和私钥：A_public_key, A_private_key<br>B也有自己的公钥和私钥：B_public_key, B_private_key</p>
+<ul>
+<li>A和B互换公钥</li>
+<li>A将文件用hash算法生成摘要，用A_private_key对摘要加密，得到的就叫数字签名</li>
+<li>A用B_public_key对文件加密</li>
+<li>将加密的文件和数字签名一起发给B<br>——B收到内容后——</li>
+<li>用B_private_key解密文件，得到明文</li>
+<li>用A_public_key解密数字签名，得到内容摘要<ul>
+<li>解密数字签名时，需要事先知道发送方A的A_public_key，因此需要确定自己得到的A_public_key确实是发送方A的（例如：C知道B的公钥，然后偷偷把B手里A的公钥A_public_key换成自己的公钥C_public_key，那么以后C给B发送的东西，B还一直以为是A发送的。因为B不知道自己手里公钥就是A的），就需要使用数字证书。</li>
+<li>证书无法伪造，因为数字证书里里有CA的数字签名，签名是由证书内容的哈希摘要用CA的私钥加密的。用CA的公钥验证签名的合法性就可以验证证书的真假。</li>
+<li>A找证书中心（CA）申请自己的证书，CA把A的公钥和一些信息作为证书内容写入，然后用CA自己的私钥生成数字签名一并写入证书。A给B发数据时把用B的公钥加密的数据、A的数字签名、A的数字证书一起发过去。B的电脑安装有根证书（操作系统带的，知道CA的公钥），用CA的公钥验证A的数字证书里面签名的合法性，合法后从证书内容里读出A的公钥。再用A的公钥解密A的数字签名验证数据完成性。最后用B的私钥解密数据。<ul>
+<li>将明文的文件内容用同样hash算法得到摘要，与第六步的摘要对比。相同则证明内容和来源都正确。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>=&gt; 加密：公钥加密，私钥解密；认证：私钥加密，公钥解密</p>
+<h2 id="Base58"><a href="#Base58" class="headerlink" title="Base58"></a>Base58</h2><p>这个算法和著名的<code>Base64</code>类似，区别在于它使用了更短的字母表：为了避免一些利用字母相似性的攻击，从字母表中移除了一些字母。也就是，没有这些符号：0（零）、O（大写的o）、I（大写的i）、l（小写的l）。</p>
+<p><em>参考：</em></p>
+<p><a href="http://www.ruanyifeng.com/blog/2011/08/what_is_a_digital_signature.html" target="_blank" rel="noopener">数字签名是什么？</a></p>
+<h2 id="原链码实现"><a href="#原链码实现" class="headerlink" title="原链码实现"></a>原链码实现</h2><p><em>特别说明：</em> 由于涉及到公司内部代码，以下仅仅简化版，无法运行，仅供参考。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"bytes"</span></span><br><span class="line">	<span class="string">"crypto/ecdsa"</span></span><br><span class="line">	<span class="string">"crypto/sha256"</span></span><br><span class="line">	<span class="string">"crypto/x509"</span></span><br><span class="line">	<span class="string">"encoding/pem"</span></span><br><span class="line">	<span class="string">"errors"</span></span><br><span class="line">	<span class="string">"math/big"</span></span><br><span class="line">	<span class="string">"strconv"</span></span><br><span class="line"></span><br><span class="line">	<span class="string">"github.com/hyperledger/fabric/core/chaincode/shim"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">getAddress</span><span class="params">(stub shim.ChaincodeStubInterface)</span> <span class="params">([]<span class="keyword">byte</span>， error)</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//Get cert</span></span><br><span class="line">	certText := creatorByte[certStart:]</span><br><span class="line">	bl， _ := pem.Decode(certText)</span><br><span class="line">	</span><br><span class="line">    <span class="comment">//Get publicKey from cert</span></span><br><span class="line">	cert， err := x509.ParseCertificate(bl.Bytes)</span><br><span class="line"></span><br><span class="line">    <span class="comment">//以下为获取地址重点</span></span><br><span class="line">	<span class="keyword">if</span> pub， ok := cert.PublicKey.(*ecdsa.PublicKey); ok &#123;</span><br><span class="line">		pubKey := <span class="built_in">append</span>(pub.X.Bytes()， pub.Y.Bytes()...)</span><br><span class="line">		publicSHA256 := sha256.Sum256(pubKey)</span><br><span class="line">		address := Base58Encode(publicSHA256[:])</span><br><span class="line"></span><br><span class="line">		log.Debugf(<span class="string">"[getAddress] %s\n"</span>， address)</span><br><span class="line">		<span class="keyword">return</span> address， <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	log.Warning(<span class="string">"[getAddress]"</span>， <span class="string">"Only support ECDSA"</span>)</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span>， errors.New(<span class="string">"Only support ECDSA"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Base58Encode encodes a byte array to Base58</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Base58Encode</span><span class="params">(input []<span class="keyword">byte</span>)</span> []<span class="title">byte</span></span> &#123;</span><br><span class="line">	<span class="comment">//Base58 encode </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h3><p>即使用同比特币地址相同的算法计算数字身份地址。</p>
+<h3 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h3><p>-&gt; cert </p>
+<p>=&gt; public key </p>
+<p>=&gt; ecdsa public key </p>
+<p>=&gt; append(ecdsa_pk.x.bytes(), ecdsa_pk.y.bytes()) =&gt; appendResult</p>
+<p>=&gt; sha256(appendResult) =&gt; sha256Result</p>
+<p>=&gt; base58Encode(sha256Result)</p>
+<h2 id="Java实现"><a href="#Java实现" class="headerlink" title="Java实现"></a>Java实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.google.common.hash.Hashing;</span><br><span class="line"><span class="keyword">import</span> com.google.common.primitives.Bytes;</span><br><span class="line"><span class="keyword">import</span> lombok.experimental.UtilityClass;</span><br><span class="line"><span class="keyword">import</span> sun.security.ec.ECPublicKeyImpl;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.BufferedInputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.ByteArrayInputStream;</span><br><span class="line"><span class="keyword">import</span> java.security.PublicKey;</span><br><span class="line"><span class="keyword">import</span> java.security.cert.CertificateException;</span><br><span class="line"><span class="keyword">import</span> java.security.cert.CertificateFactory;</span><br><span class="line"><span class="keyword">import</span> java.security.cert.X509Certificate;</span><br><span class="line"><span class="keyword">import</span> java.security.spec.ECPoint;</span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Digital identity util</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Kairou Zeng</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@UtilityClass</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DigitalIdentityUtil</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 由证书计算数字身份地址</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> cert 证书</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 数字身份地址</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getAddress</span><span class="params">(String cert)</span> </span>&#123;</span><br><span class="line">        X509Certificate x509Certificate = bytesToCertificate(cert.getBytes());</span><br><span class="line">        PublicKey publicKey = x509Certificate.getPublicKey();</span><br><span class="line">        ECPublicKeyImpl ecPublicKey = (ECPublicKeyImpl) publicKey;</span><br><span class="line">        ECPoint ecPoint = ecPublicKey.getW();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">byte</span>[] x = ecPoint.getAffineX().toByteArray();</span><br><span class="line">        <span class="keyword">byte</span>[] y = ecPoint.getAffineY().toByteArray();</span><br><span class="line"></span><br><span class="line">        x = cleanHeadZero(x);</span><br><span class="line">        y = cleanHeadZero(y);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">byte</span>[] w = <span class="keyword">new</span> <span class="keyword">byte</span>[x.length + y.length];</span><br><span class="line">        System.arraycopy(x, <span class="number">0</span>, w, <span class="number">0</span>, x.length);</span><br><span class="line">        System.arraycopy(y, <span class="number">0</span>, w, x.length, y.length);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">byte</span>[] hashCodeBytes = cleanHeadZero(Hashing.sha256().hashBytes(w).asBytes());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> Base58.encode(hashCodeBytes);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 清除前置"0"</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> bytes 清除前置"0"前的字节数组</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 清除前置"0"后的字节数组</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">byte</span>[] cleanHeadZero(<span class="keyword">byte</span>[] bytes) &#123;</span><br><span class="line">        <span class="keyword">int</span> length = bytes.length;</span><br><span class="line">        List&lt;Byte&gt; b = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i == <span class="number">0</span> &amp;&amp; bytes[i] == <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            b.add(bytes[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Bytes.toArray(b);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 证书的字节数组转为X509Certificate对象</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> certBytes 证书的字节数组</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span>          X509Certificate对象</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> X509Certificate <span class="title">bytesToCertificate</span><span class="params">(<span class="keyword">byte</span>[] certBytes)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (certBytes == <span class="keyword">null</span> || certBytes.length == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"input null or zero length"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            BufferedInputStream pem = <span class="keyword">new</span> BufferedInputStream(<span class="keyword">new</span> ByteArrayInputStream(certBytes));</span><br><span class="line">            CertificateFactory certFactory = CertificateFactory.getInstance(<span class="string">"X.509"</span>);</span><br><span class="line">            <span class="keyword">return</span> (X509Certificate) certFactory.generateCertificate(pem);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (CertificateException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><ol>
+<li>初看Java算出来的x、y和Go不一样。</li>
+</ol>
+<ul>
+<li>一开始把x、y打印出来，发现和Go算出来的不一样，然后google一下，发现其实是一样的。如</li>
+</ul>
+<p>以下为Go计算得到的x、y：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x.Bytes: [125 15 139 23 117 146 188 20 20 49 170 217 76 227 186 208 113 187 116 46 178 156 213 58 83 43 234 23 85 142 201 232]</span><br><span class="line">y.Bytes: [134 138 169 189 224 174 180 182 45 62 205 149 221 63 107 17 113 146 202 246 114 20 68 183 250 15 170 101 244 199 102 186]</span><br></pre></td></tr></table></figure></p>
+<p>以下为Java计算得到的x、y：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x.Bytes: [125, 15, -117, 23, 117, -110, -68, 20, 20, 49, -86, -39, 76, -29, -70, -48, 113, -69, 116, 46, -78, -100, -43, 58, 83, 43, -22, 23, 85, -114, -55, -24]</span><br><span class="line">y.Bytes:[-122, -118, -87, -67, -32, -82, -76, -74, 45, 62, -51, -107, -35, 63, 107, 17, 113, -110, -54, -10, 114, 20, 68, -73, -6, 15, -86, 101, -12, -57, 102, -70]</span><br></pre></td></tr></table></figure></p>
+<p>观察可以发现，有些数字相同，而有些数字刚好是<code>Java result = Go result - 256</code>.</p>
+<p>Java byte转int出现负数，其原因在于:<br>1.Java中byte的大小为8bits，其范围是-128~127的。<br>2.java的二进制采用的是补码形式</p>
+<p>参考：<a href="https://stackoverflow.com/questions/24461629/go-sha-256-hash-differs-from-java-sha-256-hash" target="_blank" rel="noopener">Go SHA-256 hash differs from Java SHA-256 hash</a></p>
+<ol start="2">
+<li>Go计算的x、y的字节数组，与Java计算出来的首尾会有多一个“0”的情况。</li>
+</ol>
+<ul>
+<li>经过多次推导测试，发现，需要将x、y以及sha256后的数组将前导零去掉。</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/区块链/" rel="tag"># 区块链</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/17/关于GitLab-CICD/" rel="next" title="关于GitLab CI/CD">
+                <i class="fa fa-chevron-left"></i> 关于GitLab CI/CD
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/kris-avatar.jpeg"
+                alt="Kris" />
+            
+              <p class="site-author-name" itemprop="name">Kris</p>
+              <p class="site-description motion-element" itemprop="description">凯柔记性不太好</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zkRou" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.instagram.com/kris_z1228/" target="_blank" title="Instagram">
+                      
+                        <i class="fa fa-fw fa-instagram"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://weibo.com/zkrkr" target="_blank" title="新浪微博">
+                      
+                        <i class="fa fa-fw fa-weibo"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.douban.com/people/88584584/" target="_blank" title="Douban">
+                      
+                        <i class="fa fa-fw fa-film"></i></a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么写"><span class="nav-text">为什么写</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么需要这个地址"><span class="nav-text">为什么需要这个地址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基础概念"><span class="nav-text">基础概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#哈希-散列函数"><span class="nav-text">哈希/散列函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对称加密算法"><span class="nav-text">对称加密算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#非对称加密算法"><span class="nav-text">非对称加密算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数字签名"><span class="nav-text">数字签名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数字证书"><span class="nav-text">数字证书</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#过程"><span class="nav-text">过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Base58"><span class="nav-text">Base58</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原链码实现"><span class="nav-text">原链码实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实现思路"><span class="nav-text">实现思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现过程"><span class="nav-text">实现过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java实现"><span class="nav-text">Java实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#遇到的问题"><span class="nav-text">遇到的问题</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kris</span>
+
+  
+</div>
+
+<!-- 
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+-->
+
+ 
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
