@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="凯柔的小本本">
 <meta property="og:description" content="持续集成 持续集成(Continuous Integration,简称CI)，指频繁将代码集成到主干。   目的：   更快速地发布更新，让产品快速迭代，同时还能保持高质量，提高开发效率。  核心措施：   代码集成到主干前，必须通过自动化测试。只要有测试用例不通过，就不能集成。  组成：  一个自动构建的过程，包括自动编译、分发、部署和测试等； 一个代码存储库，即需要版本控制来保障代码的可维护性">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-01-05T04:30:27.000Z">
+<meta property="og:updated_time" content="2019-01-05T04:31:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于GitLab CI&#x2F;CD">
 <meta name="twitter:description" content="持续集成 持续集成(Continuous Integration,简称CI)，指频繁将代码集成到主干。   目的：   更快速地发布更新，让产品快速迭代，同时还能保持高质量，提高开发效率。  核心措施：   代码集成到主干前，必须通过自动化测试。只要有测试用例不通过，就不能集成。  组成：  一个自动构建的过程，包括自动编译、分发、部署和测试等； 一个代码存储库，即需要版本控制来保障代码的可维护性">
@@ -519,10 +519,9 @@
 </table>
 <ul>
 <li><p>script</p>
-<pre><code>`script`是一段由`Runner`执行的shell脚本，例如：
-
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">job:</span></span><br><span class="line"><span class="attr">    script:</span> <span class="string">"bundle exec rspec"</span></span><br></pre></td></tr></table></figure>
-</code></pre></li>
+<p>  <code>script</code>是一段由<code>Runner</code>执行的shell脚本，例如：</p>
+  <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">job:</span></span><br><span class="line"><span class="attr">    script:</span> <span class="string">"bundle exec rspec"</span></span><br></pre></td></tr></table></figure>
+</li>
 </ul>
 <pre><code>这个参数也可以使用数组包含几条命令：
 
