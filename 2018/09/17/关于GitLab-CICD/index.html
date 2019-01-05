@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="凯柔的小本本">
 <meta property="og:description" content="持续集成 持续集成(Continuous Integration,简称CI)，指频繁将代码集成到主干。   目的：   更快速地发布更新，让产品快速迭代，同时还能保持高质量，提高开发效率。  核心措施：   代码集成到主干前，必须通过自动化测试。只要有测试用例不通过，就不能集成。  组成：  一个自动构建的过程，包括自动编译、分发、部署和测试等； 一个代码存储库，即需要版本控制来保障代码的可维护性">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-01-05T03:50:53.000Z">
+<meta property="og:updated_time" content="2019-01-05T03:57:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于GitLab CI&#x2F;CD">
 <meta name="twitter:description" content="持续集成 持续集成(Continuous Integration,简称CI)，指频繁将代码集成到主干。   目的：   更快速地发布更新，让产品快速迭代，同时还能保持高质量，提高开发效率。  核心措施：   代码集成到主干前，必须通过自动化测试。只要有测试用例不通过，就不能集成。  组成：  一个自动构建的过程，包括自动编译、分发、部署和测试等； 一个代码存储库，即需要版本控制来保障代码的可维护性">
@@ -409,7 +409,7 @@
 </li>
 <li><p>Jobs</p>
 <p>  <code>Jobs</code>表示构建工作，表示某个<code>Stage</code>里面执行的工作。</p>
-<p>  | 关键字 | 是否必须 | 描述 |<br>  | — | — | — |<br>  | script | 是 | 定义<code>Runner</code>需要执行的脚本或命令 |<br>  | extends | 否 | 定义此 job 将继承的配置条目 |<br>  | image | 否 | 需要使用的docker镜像 |<br>  | services | 否 | 定义了所需的docker服务 |<br>  | stage | 否 | 定义了<code>Job</code>的阶段，默认是<code>test</code> |<br>  | type | 否 | <code>stage</code>的别名，不赞成使用 |<br>  | vaiables | 否 | 在<code>job</code>级别上定义的变量 |<br>  | only | 否 | 定义那些git分支适合该<code>job</code> |<br>  | except | 否 | 定义了哪些git分支不适合该<code>job</code> |<br>  | tages | 否 | 定义了哪些runner适合该job(runner在创建时会要求用户输入标签名来代表该runner) |<br>  | allow_failure | 否 | 允许任务失败，但是如果失败，将不会改变提交状态 |<br>  | when | 否 | 定义<code>job</code>什么时候能被执行，可以是<code>on_success</code>,<code>on_failure</code>,<code>always</code>或者<code>manual</code> |<br>  | dependencies | 否 | 定义了该<code>job</code>依赖哪一个<code>job</code>，如果设置该项，你可以通过artifacts设置 |<br>  | cache | 否 | 定义需要被缓存的文件、文件夹列表 |<br>  | before_script | 否 | 覆盖在根元素上定义的<code>before_script</code> |<br>  | after_script | 否 | 覆盖在根元素上定义的<code>after_script</code> |<br>  | environment | 否 | 定义让job完成部署的环境名称 |<br>  | coverage| 否 | 定义代码覆盖率设置 |<br>  | retry | 否 | 定义<code>job</code>失败后的自动充重试次数 |</p>
+<p>  | 关键字 | 是否必须 | 描述 |<br>  | :—- | :—-: | :—- |<br>  | script | 是 | 定义<code>Runner</code>需要执行的脚本或命令 |<br>  | extends | 否 | 定义此 job 将继承的配置条目 |<br>  | image | 否 | 需要使用的docker镜像 |<br>  | services | 否 | 定义了所需的docker服务 |<br>  | stage | 否 | 定义了<code>Job</code>的阶段，默认是<code>test</code> |<br>  | type | 否 | <code>stage</code>的别名，不赞成使用 |<br>  | vaiables | 否 | 在<code>job</code>级别上定义的变量 |<br>  | only | 否 | 定义那些git分支适合该<code>job</code> |<br>  | except | 否 | 定义了哪些git分支不适合该<code>job</code> |<br>  | tages | 否 | 定义了哪些runner适合该job(runner在创建时会要求用户输入标签名来代表该runner) |<br>  | allow_failure | 否 | 允许任务失败，但是如果失败，将不会改变提交状态 |<br>  | when | 否 | 定义<code>job</code>什么时候能被执行，可以是<code>on_success</code>,<code>on_failure</code>,<code>always</code>或者<code>manual</code> |<br>  | dependencies | 否 | 定义了该<code>job</code>依赖哪一个<code>job</code>，如果设置该项，你可以通过artifacts设置 |<br>  | cache | 否 | 定义需要被缓存的文件、文件夹列表 |<br>  | before_script | 否 | 覆盖在根元素上定义的<code>before_script</code> |<br>  | after_script | 否 | 覆盖在根元素上定义的<code>after_script</code> |<br>  | environment | 否 | 定义让job完成部署的环境名称 |<br>  | coverage| 否 | 定义代码覆盖率设置 |<br>  | retry | 否 | 定义<code>job</code>失败后的自动充重试次数 |</p>
 <ul>
 <li><p>script</p>
 <p>  <code>script</code>是一段由<code>Runner</code>执行的shell脚本，例如：</p>
