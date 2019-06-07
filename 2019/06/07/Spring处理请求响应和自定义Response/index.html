@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/avatar.ico?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="为什么写手头接到一个项目，整个项目接口返回的格式其实都基本一致，因此可以自定义ResponseBody来统一控制层的输出。 Http请求和响应Http请求和响应报文本质上都是一串字符串，当请求报文来到java世界里，它会被封装成为一个ServletInputStream的输入流，供我们读取报文。响应报文则是通过一个ServletOutputStream的输出流，来输出响应报文。在SpringMVC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring处理请求响应和自定义Response">
+<meta property="og:url" content="http://yoursite.com/2019/06/07/Spring处理请求响应和自定义Response/index.html">
+<meta property="og:site_name" content="凯柔的小本本">
+<meta property="og:description" content="为什么写手头接到一个项目，整个项目接口返回的格式其实都基本一致，因此可以自定义ResponseBody来统一控制层的输出。 Http请求和响应Http请求和响应报文本质上都是一串字符串，当请求报文来到java世界里，它会被封装成为一个ServletInputStream的输入流，供我们读取报文。响应报文则是通过一个ServletOutputStream的输出流，来输出响应报文。在SpringMVC">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-06-07T15:31:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring处理请求响应和自定义Response">
+<meta name="twitter:description" content="为什么写手头接到一个项目，整个项目接口返回的格式其实都基本一致，因此可以自定义ResponseBody来统一控制层的输出。 Http请求和响应Http请求和响应报文本质上都是一串字符串，当请求报文来到java世界里，它会被封装成为一个ServletInputStream的输入流，供我们读取报文。响应报文则是通过一个ServletOutputStream的输出流，来输出响应报文。在SpringMVC">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/06/07/Spring处理请求响应和自定义Response/"/>
+
+
+
+
+
+  <title>Spring处理请求响应和自定义Response | 凯柔的小本本</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">凯柔的小本本</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/07/Spring处理请求响应和自定义Response/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kris">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/kris-avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="凯柔的小本本">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring处理请求响应和自定义Response</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-07T00:00:00+08:00">
+                2019-06-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spring/" itemprop="url" rel="index">
+                    <span itemprop="name">Spring</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount" style="display:inline">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2,497 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  14 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="为什么写"><a href="#为什么写" class="headerlink" title="为什么写"></a>为什么写</h1><p>手头接到一个项目，整个项目接口返回的格式其实都基本一致，因此可以自定义<code>ResponseBody</code>来统一控制层的输出。</p>
+<h1 id="Http请求和响应"><a href="#Http请求和响应" class="headerlink" title="Http请求和响应"></a>Http请求和响应</h1><p>Http请求和响应报文本质上都是一串字符串，当请求报文来到java世界里，它会被封装成为一个<code>ServletInputStream</code>的输入流，供我们读取报文。响应报文则是通过一个<code>ServletOutputStream</code>的输出流，来输出响应报文。在<code>SpringMVC</code>中，<code>HttpMessageConverter</code>机制将输入流/输出流转为java对象。</p>
+<ul>
+<li>HttpMessageConverter</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.springframework.http.converter;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.http.HttpInputMessage;</span><br><span class="line"><span class="keyword">import</span> org.springframework.http.HttpOutputMessage;</span><br><span class="line"><span class="keyword">import</span> org.springframework.http.MediaType;</span><br><span class="line"><span class="keyword">import</span> org.springframework.lang.Nullable;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Strategy interface that specifies a converter that can convert from and to HTTP requests and responses.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Arjen Poutsma</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Juergen Hoeller</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@since</span> 3.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> &lt;T&gt; the converted object type</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">HttpMessageConverter</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Indicates whether the given class can be read by this converter.</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> clazz the class to test for readability</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> mediaType the media type to read (can be &#123;<span class="doctag">@code</span> null&#125; if not specified);</span></span><br><span class="line"><span class="comment">	 * typically the value of a &#123;<span class="doctag">@code</span> Content-Type&#125; header.</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> &#123;<span class="doctag">@code</span> true&#125; if readable; &#123;<span class="doctag">@code</span> false&#125; otherwise</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">     <span class="comment">//判断该转换器是否能将请求内容转换为Java对象</span></span><br><span class="line">	<span class="function"><span class="keyword">boolean</span> <span class="title">canRead</span><span class="params">(Class&lt;?&gt; clazz, @Nullable MediaType mediaType)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Indicates whether the given class can be written by this converter.</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> clazz the class to test for writability</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> mediaType the media type to write (can be &#123;<span class="doctag">@code</span> null&#125; if not specified);</span></span><br><span class="line"><span class="comment">	 * typically the value of an &#123;<span class="doctag">@code</span> Accept&#125; header.</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> &#123;<span class="doctag">@code</span> true&#125; if writable; &#123;<span class="doctag">@code</span> false&#125; otherwise</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">     <span class="comment">//判断该转换器是否可以将Java对象转换成返回内容</span></span><br><span class="line">	<span class="function"><span class="keyword">boolean</span> <span class="title">canWrite</span><span class="params">(Class&lt;?&gt; clazz, @Nullable MediaType mediaType)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Return the list of &#123;<span class="doctag">@link</span> MediaType&#125; objects supported by this converter.</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> the list of supported media types</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">     <span class="comment">//获得该转换器支持的MediaType类型</span></span><br><span class="line">	<span class="function">List&lt;MediaType&gt; <span class="title">getSupportedMediaTypes</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Read an object of the given type from the given input message, and returns it.</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> clazz the type of object to return. This type must have previously been passed to the</span></span><br><span class="line"><span class="comment">	 * &#123;<span class="doctag">@link</span> #canRead canRead&#125; method of this interface, which must have returned &#123;<span class="doctag">@code</span> true&#125;.</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> inputMessage the HTTP input message to read from</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> the converted object</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@throws</span> IOException in case of I/O errors</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@throws</span> HttpMessageNotReadableException in case of conversion errors</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">    <span class="comment">//读取请求内容并转换成Java对象</span></span><br><span class="line">	<span class="function">T <span class="title">read</span><span class="params">(Class&lt;? extends T&gt; clazz, HttpInputMessage inputMessage)</span></span></span><br><span class="line"><span class="function">			<span class="keyword">throws</span> IOException, HttpMessageNotReadableException</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Write an given object to the given output message.</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> t the object to write to the output message. The type of this object must have previously been</span></span><br><span class="line"><span class="comment">	 * passed to the &#123;<span class="doctag">@link</span> #canWrite canWrite&#125; method of this interface, which must have returned &#123;<span class="doctag">@code</span> true&#125;.</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> contentType the content type to use when writing. May be &#123;<span class="doctag">@code</span> null&#125; to indicate that the</span></span><br><span class="line"><span class="comment">	 * default content type of the converter must be used. If not &#123;<span class="doctag">@code</span> null&#125;, this media type must have</span></span><br><span class="line"><span class="comment">	 * previously been passed to the &#123;<span class="doctag">@link</span> #canWrite canWrite&#125; method of this interface, which must have</span></span><br><span class="line"><span class="comment">	 * returned &#123;<span class="doctag">@code</span> true&#125;.</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> outputMessage the message to write to</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@throws</span> IOException in case of I/O errors</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@throws</span> HttpMessageNotWritableException in case of conversion errors</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">    <span class="comment">//将Java对象转换后写入返回内容</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">write</span><span class="params">(T t, @Nullable MediaType contentType, HttpOutputMessage outputMessage)</span></span></span><br><span class="line"><span class="function">			<span class="keyword">throws</span> IOException, HttpMessageNotWritableException</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>HttpMessageConverter</code>对消息转换器最高层次的接口抽象。该类中有成对的<code>canRead()</code>、<code>read()</code>和<code>canWrite()</code>、<code>write()</code>方法，<code>MediaType</code>是对请求的<code>Media Type</code>属性的封装。</p>
+<ul>
+<li>HttpInputMessage</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Represents an HTTP input message, consisting of &#123;<span class="doctag">@linkplain</span> #getHeaders() headers&#125;</span></span><br><span class="line"><span class="comment"> * and a readable &#123;<span class="doctag">@linkplain</span> #getBody() body&#125;.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;Typically implemented by an HTTP request handle on the server side,</span></span><br><span class="line"><span class="comment"> * or an HTTP response handle on the client side.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Arjen Poutsma</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@since</span> 3.0</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">HttpInputMessage</span> <span class="keyword">extends</span> <span class="title">HttpMessage</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Return the body of the message as an input stream.</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> the input stream body (never &#123;<span class="doctag">@code</span> null&#125;)</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@throws</span> IOException in case of I/O errors</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function">InputStream <span class="title">getBody</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>HttpInputMessage</code>这个类是<code>SpringMVC</code>内部对一次Http请求报文的抽象，在<code>HttpMessageConverter</code>的<code>read()</code>方法中，有一个<code>HttpInputMessage</code>的形参，它正是<code>SpringMVC</code>的消息转换器所作用的受体“请求消息”的内部抽象，消息转换器从”请求消息”中按照规则提取信息，转换为方法形参中声明的对象。</p>
+<ul>
+<li>HttpOutputMessage</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.springframework.http;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.OutputStream;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Represents an HTTP output message, consisting of &#123;<span class="doctag">@linkplain</span> #getHeaders() headers&#125;</span></span><br><span class="line"><span class="comment"> * and a writable &#123;<span class="doctag">@linkplain</span> #getBody() body&#125;.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;Typically implemented by an HTTP request handle on the client side,</span></span><br><span class="line"><span class="comment"> * or an HTTP response handle on the server side.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Arjen Poutsma</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@since</span> 3.0</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">HttpOutputMessage</span> <span class="keyword">extends</span> <span class="title">HttpMessage</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Return the body of the message as an output stream.</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> the output stream body (never &#123;<span class="doctag">@code</span> null&#125;)</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@throws</span> IOException in case of I/O errors</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function">OutputStream <span class="title">getBody</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>HttpOutputMessage</code>这个类是<code>SpringMVC</code>内部对一次Http响应报文的抽象，在<code>HttpMessageConverter</code>的<code>write()</code>方法中，有一个<code>HttpOutputMessage</code>的形参，它正是<code>SpringMVC</code>的消息转换器所作用的受体“响应消息”的内容抽象，消息转换器将“响应消息”按照一定的规则写到响应报文中。</p>
+<h1 id="请求、响应过程"><a href="#请求、响应过程" class="headerlink" title="请求、响应过程"></a>请求、响应过程</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/string"</span>)</span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">readString</span><span class="params">(@RequestBody String string)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"Read string '"</span> + string + <span class="string">"'"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>请求</p>
+<p>  请求报文 -&gt; HttpInputMessage -&gt; HttpMessageConverter -&gt; java对象 -&gt; SpringMVC</p>
+<ol>
+<li>进入<code>readString()</code>方法前，根据<code>@RequestBody</code>注解选择适当的<code>HttpMessageConverter</code>实现类将请求参数解析到string变量中，具体来说是使用了<code>StringHttpMessageConverter</code>类，它的<code>canRead()</code>方法返回true;</li>
+<li>它的<code>read()</code>方法会从请求中读出请求参数，绑定到<code>readString()</code>方法的string变量中。</li>
+</ol>
+</li>
+<li><p>响应</p>
+<p>  SpringMVC -&gt; java对象 -&gt; HttpMessageConverter -&gt; HttpOutputMessage -&gt; 响应报文</p>
+<ol>
+<li>当<code>readString()</code>执行后，由于返回值标识了<code>@ResponseBody</code>，<code>SpringMVC</code>将使用<code>StringHttpMessageConverter</code>的<code>write()</code>方法，将结果作为String值写入响应报文中，此时它的<code>canWrite()</code>方法返回true。 </li>
+</ol>
+</li>
+</ul>
+<h1 id="RequestResponseBodyMethodProcessor"><a href="#RequestResponseBodyMethodProcessor" class="headerlink" title="RequestResponseBodyMethodProcessor"></a>RequestResponseBodyMethodProcessor</h1><p>这个类同时实现了<code>HandlerMethodArgumentResolver</code>(将请求报文绑定到处理方法形参的策略接口)和<code>HandlerMethodReturnValueHandler</code>(对处理方法返回值进行处理的策略接口)两个接口。</p>
+<p><code>HandlerMethodArgumentResolver</code>:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.springframework.web.method.support;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.core.MethodParameter;</span><br><span class="line"><span class="keyword">import</span> org.springframework.lang.Nullable;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.WebDataBinder;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.support.WebDataBinderFactory;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.context.request.NativeWebRequest;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Strategy interface for resolving method parameters into argument values in</span></span><br><span class="line"><span class="comment"> * the context of a given request.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Arjen Poutsma</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@since</span> 3.1</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@see</span> HandlerMethodReturnValueHandler</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">HandlerMethodArgumentResolver</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Whether the given &#123;<span class="doctag">@linkplain</span> MethodParameter method parameter&#125; is</span></span><br><span class="line"><span class="comment">	 * supported by this resolver.</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> parameter the method parameter to check</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> &#123;<span class="doctag">@code</span> true&#125; if this resolver supports the supplied parameter;</span></span><br><span class="line"><span class="comment">	 * &#123;<span class="doctag">@code</span> false&#125; otherwise</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">boolean</span> <span class="title">supportsParameter</span><span class="params">(MethodParameter parameter)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Resolves a method parameter into an argument value from a given request.</span></span><br><span class="line"><span class="comment">	 * A &#123;<span class="doctag">@link</span> ModelAndViewContainer&#125; provides access to the model for the</span></span><br><span class="line"><span class="comment">	 * request. A &#123;<span class="doctag">@link</span> WebDataBinderFactory&#125; provides a way to create</span></span><br><span class="line"><span class="comment">	 * a &#123;<span class="doctag">@link</span> WebDataBinder&#125; instance when needed for data binding and</span></span><br><span class="line"><span class="comment">	 * type conversion purposes.</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> parameter the method parameter to resolve. This parameter must</span></span><br><span class="line"><span class="comment">	 * have previously been passed to &#123;<span class="doctag">@link</span> #supportsParameter&#125; which must</span></span><br><span class="line"><span class="comment">	 * have returned &#123;<span class="doctag">@code</span> true&#125;.</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> mavContainer the ModelAndViewContainer for the current request</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> webRequest the current request</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> binderFactory a factory for creating &#123;<span class="doctag">@link</span> WebDataBinder&#125; instances</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> the resolved argument value, or &#123;<span class="doctag">@code</span> null&#125; if not resolvable</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@throws</span> Exception in case of errors with the preparation of argument values</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="meta">@Nullable</span></span><br><span class="line">	<span class="function">Object <span class="title">resolveArgument</span><span class="params">(MethodParameter parameter, @Nullable ModelAndViewContainer mavContainer,</span></span></span><br><span class="line"><span class="function"><span class="params">			NativeWebRequest webRequest, @Nullable WebDataBinderFactory binderFactory)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对<code>HandlerMethodArgumentResolver</code>接口的实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">supportsParameter</span><span class="params">(MethodParameter parameter)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> parameter.hasParameterAnnotation(RequestBody.class);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">resolveArgument</span><span class="params">(MethodParameter parameter, @Nullable ModelAndViewContainer mavContainer,</span></span></span><br><span class="line"><span class="function"><span class="params">        NativeWebRequest webRequest, @Nullable WebDataBinderFactory binderFactory)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">    parameter = parameter.nestedIfOptional();</span><br><span class="line">    Object arg = readWithMessageConverters(webRequest, parameter, parameter.getNestedGenericParameterType());</span><br><span class="line">    String name = Conventions.getVariableNameForParameter(parameter);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (binderFactory != <span class="keyword">null</span>) &#123;</span><br><span class="line">        WebDataBinder binder = binderFactory.createBinder(webRequest, arg, name);</span><br><span class="line">        <span class="keyword">if</span> (arg != <span class="keyword">null</span>) &#123;</span><br><span class="line">            validateIfApplicable(binder, parameter);</span><br><span class="line">            <span class="keyword">if</span> (binder.getBindingResult().hasErrors() &amp;&amp; isBindExceptionRequired(binder, parameter)) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> MethodArgumentNotValidException(parameter, binder.getBindingResult());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (mavContainer != <span class="keyword">null</span>) &#123;</span><br><span class="line">            mavContainer.addAttribute(BindingResult.MODEL_KEY_PREFIX + name, binder.getBindingResult());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> adaptArgumentIfNecessary(arg, parameter);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>HandlerMethodReturnValueHandler</code>:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.springframework.web.method.support;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.core.MethodParameter;</span><br><span class="line"><span class="keyword">import</span> org.springframework.lang.Nullable;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.context.request.NativeWebRequest;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Strategy interface to handle the value returned from the invocation of a</span></span><br><span class="line"><span class="comment"> * handler method .</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Arjen Poutsma</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@since</span> 3.1</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@see</span> HandlerMethodArgumentResolver</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">HandlerMethodReturnValueHandler</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Whether the given &#123;<span class="doctag">@linkplain</span> MethodParameter method return type&#125; is</span></span><br><span class="line"><span class="comment">	 * supported by this handler.</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> returnType the method return type to check</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> &#123;<span class="doctag">@code</span> true&#125; if this handler supports the supplied return type;</span></span><br><span class="line"><span class="comment">	 * &#123;<span class="doctag">@code</span> false&#125; otherwise</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">boolean</span> <span class="title">supportsReturnType</span><span class="params">(MethodParameter returnType)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Handle the given return value by adding attributes to the model and</span></span><br><span class="line"><span class="comment">	 * setting a view or setting the</span></span><br><span class="line"><span class="comment">	 * &#123;<span class="doctag">@link</span> ModelAndViewContainer#setRequestHandled&#125; flag to &#123;<span class="doctag">@code</span> true&#125;</span></span><br><span class="line"><span class="comment">	 * to indicate the response has been handled directly.</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> returnValue the value returned from the handler method</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> returnType the type of the return value. This type must have</span></span><br><span class="line"><span class="comment">	 * previously been passed to &#123;<span class="doctag">@link</span> #supportsReturnType&#125; which must</span></span><br><span class="line"><span class="comment">	 * have returned &#123;<span class="doctag">@code</span> true&#125;.</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> mavContainer the ModelAndViewContainer for the current request</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> webRequest the current request</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@throws</span> Exception if the return value handling results in an error</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">handleReturnValue</span><span class="params">(@Nullable Object returnValue, MethodParameter returnType,</span></span></span><br><span class="line"><span class="function"><span class="params">			ModelAndViewContainer mavContainer, NativeWebRequest webRequest)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对<code>HandlerMethodReturnValueHandler</code>的接口实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">supportsReturnType</span><span class="params">(MethodParameter returnType)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (AnnotatedElementUtils.hasAnnotation(returnType.getContainingClass(), ResponseBody.class) ||</span><br><span class="line">            returnType.hasMethodAnnotation(ResponseBody.class));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleReturnValue</span><span class="params">(@Nullable Object returnValue, MethodParameter returnType,</span></span></span><br><span class="line"><span class="function"><span class="params">        ModelAndViewContainer mavContainer, NativeWebRequest webRequest)</span></span></span><br><span class="line"><span class="function">        <span class="keyword">throws</span> IOException, HttpMediaTypeNotAcceptableException, HttpMessageNotWritableException </span>&#123;</span><br><span class="line"></span><br><span class="line">    mavContainer.setRequestHandled(<span class="keyword">true</span>);</span><br><span class="line">    ServletServerHttpRequest inputMessage = createInputMessage(webRequest);</span><br><span class="line">    ServletServerHttpResponse outputMessage = createOutputMessage(webRequest);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Try even with null return value. ResponseBodyAdvice could get involved.</span></span><br><span class="line">    writeWithMessageConverters(returnValue, returnType, inputMessage, outputMessage);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="自定义-Response实现"><a href="#自定义-Response实现" class="headerlink" title="自定义@Response实现"></a>自定义<code>@Response</code>实现</h1><ol>
+<li>定义一个注解类</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.lang.annotation.ElementType;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Retention;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.RetentionPolicy;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Target;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 为了更方便返回统一的JSON格式而自定义的注解</span></span><br><span class="line"><span class="comment"> * 作用类似于&#123;<span class="doctag">@link</span> org.springframework.web.bind.annotation.ResponseBody&#125;</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Kairou Zeng</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Target</span>(&#123;ElementType.TYPE, ElementType.METHOD&#125;)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> ResultResponseBody &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>定义一个类，继承<code>RequestResponseBodyProcessor</code>，并重写<code>supportsReturnType(MethodParameter returnType)</code>方法和<code>handleReturnValue</code>方法</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.szfgw.IntelligentSite.bean.vo.ResponseVO;</span><br><span class="line"><span class="keyword">import</span> org.springframework.core.MethodParameter;</span><br><span class="line"><span class="keyword">import</span> org.springframework.http.converter.HttpMessageConverter;</span><br><span class="line"><span class="keyword">import</span> org.springframework.http.converter.HttpMessageNotWritableException;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.HttpMediaTypeNotAcceptableException;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.context.request.NativeWebRequest;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.method.support.ModelAndViewContainer;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 结合&#123;<span class="doctag">@link</span> ResultResponseBody&#125;包装处理返回结果</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Kairou Zeng</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ResultResponseHandlerMethodProcessor</span> <span class="keyword">extends</span> <span class="title">RequestResponseBodyMethodProcessor</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ResultResponseHandlerMethodProcessor</span><span class="params">(List&lt;HttpMessageConverter&lt;?&gt;&gt; converters)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(converters);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">supportsReturnType</span><span class="params">(MethodParameter returnType)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> returnType.getMethodAnnotation(ResultResponseBody.class) != <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleReturnValue</span><span class="params">(Object returnValue,</span></span></span><br><span class="line"><span class="function"><span class="params">                                  MethodParameter returnType,</span></span></span><br><span class="line"><span class="function"><span class="params">                                  ModelAndViewContainer mavContainer, NativeWebRequest webRequest)</span> <span class="keyword">throws</span> IOException, HttpMediaTypeNotAcceptableException, HttpMessageNotWritableException </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.handleReturnValue(<span class="keyword">new</span> ResponseVO(returnValue), returnType, mavContainer, webRequest);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>实现接口<code>WebMvcConfigurer</code>的<code>addReturnValueHandlers</code>方法</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.fasterxml.jackson.databind.DeserializationFeature;</span><br><span class="line"><span class="keyword">import</span> com.fasterxml.jackson.databind.ObjectMapper;</span><br><span class="line"><span class="keyword">import</span> com.fasterxml.jackson.databind.SerializationFeature;</span><br><span class="line"><span class="keyword">import</span> com.szfgw.IntelligentSite.utils.ResultResponseHandlerMethodProcessor;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.method.support.HandlerMethodReturnValueHandler;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.servlet.config.annotation.WebMvcConfigurer;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Collections;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Kairou Zeng</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"> <span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebMvcConfig</span> <span class="keyword">implements</span> <span class="title">WebMvcConfigurer</span> </span>&#123;</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">WebMvcConfig</span><span class="params">(MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.mappingJackson2HttpMessageConverter = mappingJackson2HttpMessageConverter;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addReturnValueHandlers</span><span class="params">(List&lt;HandlerMethodReturnValueHandler&gt; handlers)</span> </span>&#123;</span><br><span class="line">        ObjectMapper objectMapper = mappingJackson2HttpMessageConverter.getObjectMapper();</span><br><span class="line">        objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);</span><br><span class="line">        objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);</span><br><span class="line">        handlers.add(<span class="keyword">new</span> ResultResponseHandlerMethodProcessor(Collections.singletonList(mappingJackson2HttpMessageConverter)));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/24/AbstractRoutingDataSource+AOP动态数据源切换/" rel="next" title="AbstractRoutingDataSource+AOP动态数据源切换">
+                <i class="fa fa-chevron-left"></i> AbstractRoutingDataSource+AOP动态数据源切换
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/kris-avatar.jpeg"
+                alt="Kris" />
+            
+              <p class="site-author-name" itemprop="name">Kris</p>
+              <p class="site-description motion-element" itemprop="description">凯柔记性不太好</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么写"><span class="nav-text">为什么写</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Http请求和响应"><span class="nav-text">Http请求和响应</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#请求、响应过程"><span class="nav-text">请求、响应过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RequestResponseBodyMethodProcessor"><span class="nav-text">RequestResponseBodyMethodProcessor</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自定义-Response实现"><span class="nav-text">自定义@Response实现</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kris</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">22.1k</span>
+  
+</div>
+
+<!-- 
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+-->
+
+ 
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
