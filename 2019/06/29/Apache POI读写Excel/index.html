@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="单元测试," />
+  <meta name="keywords" content="Apache POI," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="问题场景： 发送短信验证码的接口，验证码是一个由Util工具类生成的随机数，业务层需要验证结果 解决方案： 使用PowerMock  PowerMock扩展了EasyMock和Mockito框架，增加对static、final、私有方法的支持。  PowerMock有两个重要的注解：  @RunWith(PowerMockRunner.class) @PrepareForTest({YourCl">
-<meta name="keywords" content="单元测试">
+<meta name="description" content="使用Apache POI读写Excel">
+<meta name="keywords" content="Apache POI">
 <meta property="og:type" content="article">
-<meta property="og:title" content="写UT遇到的坑和解决方法">
-<meta property="og:url" content="http://yoursite.com/2018/07/01/写UT遇到的坑和解决方法/index.html">
+<meta property="og:title" content="Apache POI读写Excel">
+<meta property="og:url" content="http://yoursite.com/2019/06/29/Apache POI读写Excel/index.html">
 <meta property="og:site_name" content="凯柔的小本本">
-<meta property="og:description" content="问题场景： 发送短信验证码的接口，验证码是一个由Util工具类生成的随机数，业务层需要验证结果 解决方案： 使用PowerMock  PowerMock扩展了EasyMock和Mockito框架，增加对static、final、私有方法的支持。  PowerMock有两个重要的注解：  @RunWith(PowerMockRunner.class) @PrepareForTest({YourCl">
+<meta property="og:description" content="使用Apache POI读写Excel">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-07T07:11:55.000Z">
+<meta property="og:updated_time" content="2019-06-29T09:20:58.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="写UT遇到的坑和解决方法">
-<meta name="twitter:description" content="问题场景： 发送短信验证码的接口，验证码是一个由Util工具类生成的随机数，业务层需要验证结果 解决方案： 使用PowerMock  PowerMock扩展了EasyMock和Mockito框架，增加对static、final、私有方法的支持。  PowerMock有两个重要的注解：  @RunWith(PowerMockRunner.class) @PrepareForTest({YourCl">
+<meta name="twitter:title" content="Apache POI读写Excel">
+<meta name="twitter:description" content="使用Apache POI读写Excel">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/07/01/写UT遇到的坑和解决方法/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/06/29/Apache POI读写Excel/"/>
 
 
 
 
 
-  <title>写UT遇到的坑和解决方法 | 凯柔的小本本</title>
+  <title>Apache POI读写Excel | 凯柔的小本本</title>
   
 
 
@@ -297,7 +297,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/01/写UT遇到的坑和解决方法/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/29/Apache POI读写Excel/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Kris">
@@ -314,7 +314,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">写UT遇到的坑和解决方法</h1>
+          <h1 class="post-title" itemprop="name headline">Apache POI读写Excel</h1>
         
 
         <div class="post-meta">
@@ -326,8 +326,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-01T00:00:00+08:00">
-                2018-07-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-29T00:00:00+08:00">
+                2019-06-29
               </time>
             
 
@@ -349,8 +349,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/测试/" itemprop="url" rel="index">
-                    <span itemprop="name">测试</span>
+                  <a href="/categories/数据处理/" itemprop="url" rel="index">
+                    <span itemprop="name">数据处理</span>
                   </a>
                 </span>
 
@@ -382,7 +382,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  683 字
+                  753 字
                 </span>
               
 
@@ -398,12 +398,16 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  3 分钟
+                  4 分钟
                 </span>
               
             </div>
           
 
+          
+              <div class="post-description">
+                  使用Apache POI读写Excel
+              </div>
           
 
         </div>
@@ -419,34 +423,23 @@
       
 
       
-        <hr>
-<p><strong>问题场景：</strong> 发送短信验证码的接口，验证码是一个由Util工具类生成的随机数，业务层需要验证结果</p>
-<p><strong>解决方案：</strong> 使用PowerMock</p>
-<blockquote>
-<p>PowerMock扩展了EasyMock和Mockito框架，增加对static、final、私有方法的支持。</p>
+        <h1 id="日常记录"><a href="#日常记录" class="headerlink" title="日常记录"></a>日常记录</h1><ul>
+<li>这是一个日常的备忘帖</li>
+<li>读写excel的需求一年总会有这么几次</li>
+</ul>
+<h1 id="Apache-POI"><a href="#Apache-POI" class="headerlink" title="Apache POI"></a>Apache POI</h1><blockquote>
+<p>是Apache软件基金会的开放源码函式库，POI提供API给Java程序对Microsoft Office格式档案读和写的功能。</p>
 </blockquote>
-<p><code>PowerMock</code>有两个重要的注解：</p>
-<ul>
-<li><code>@RunWith(PowerMockRunner.class)</code></li>
-<li><code>@PrepareForTest({YourClassEgStaticMethod.class})</code></li>
-</ul>
-<p>如果你的测试用例没有使用注解<code>@PrepareForTest</code>,那么可以不用加注解<code>@RunWith(PowerMockRunner.class)</code>,反之亦然。当你需要使用PowerMock强大功能(Mock静态、final、私有方法等)的时候，就需要加注解<code>@PrepareForTest</code>.</p>
-<p>当某个测试方法被注解<code>@PrepareForTest</code>标注以后，在运行测试用例时，会创建一个新的<code>org.powermock.core.classloader.MockClassLoader</code>实例，然后加载该测试用例使用到的类(系统类除外)</p>
-<p><code>PowerMock</code>会根据你的mock要求，去修改写在注解<code>@PrepareForTest</code>里的class文件(当前测试类会自动加入注解中),以满足特殊的mock需求.例如:去除final方法的final标识,在静态方法的最前面加入自己的虚拟实现等。</p>
-<p>如果需要mock的是系统类的final方法和静态方法,<code>PowerMock</code>不会直接修改系统类的class文件，而是修改调用系统类的class文件,以满足mock需求.</p>
-<ul>
-<li>验证静态方法</li>
-</ul>
-<p>PowerMockito.verifyStatic(); </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PowerMockito.verifyStatic(Mockito.times(<span class="number">2</span>)); <span class="comment">//被调用两次</span></span><br></pre></td></tr></table></figure>
-<p>Static.firstStaticMethod(param);</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tatic.thirdStaticMethod(Mockito.anyInt()); <span class="comment">// 以任何整数值被调用</span></span><br></pre></td></tr></table></figure>
-<p><strong>实际解决代码：</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootTest</span></span><br><span class="line"><span class="meta">@RunWith</span>(PowerMockRunner.class)</span><br><span class="line"><span class="meta">@PowerMockRunnerDelegate</span>(SpringRunner.class)</span><br><span class="line"><span class="meta">@AutoConfigureMockMvc</span></span><br><span class="line"><span class="meta">@PowerMockIgnore</span>(&#123;<span class="string">"javax.net.*"</span>, <span class="string">"javax.security.*"</span>&#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SmsVerificationCodeControllerTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> MockMvc mockMvc;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Mock</span></span><br><span class="line">    <span class="keyword">private</span> ThirdClient thirdClient;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@MockBean</span></span><br><span class="line">    <span class="keyword">private</span> SmsVerificationCodeDao smsVerificationCodeDao;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 发送短信验证码</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="meta">@PrepareForTest</span>(RandomUtils.class) </span><br><span class="line">    <span class="comment">//当mock静态方法、final方法时，必须加注解`@PrepareForTest`和`@RunWith`。注解`@PrepareForTest`里写的类是静态方法/final方法所在的类</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendVerificationCodeSms</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        String code = <span class="string">"000000"</span>;</span><br><span class="line">        String telephone = <span class="string">"136********"</span>;</span><br><span class="line"></span><br><span class="line">        Response response = <span class="keyword">new</span> Response();</span><br><span class="line">        response.setErrcode(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        PowerMockito.mockStatic(RandomUtils.class);</span><br><span class="line">        PowerMockito.when(RandomUtils.getCodeChars()).thenReturn(code.toCharArray());</span><br><span class="line">        BDDMockito.given(thirdClient.sendSmsVcode(telephone, code)).willReturn(kdCloudResponse);</span><br><span class="line"></span><br><span class="line">        mockMvc.perform(post(<span class="string">"/send/vcode"</span>)</span><br><span class="line">                .param(<span class="string">"telephone"</span>, telephone))</span><br><span class="line">                .andExpect(MockMvcResultMatchers.status().isOk())</span><br><span class="line">                .andExpect(MockMvcResultMatchers.jsonPath(<span class="string">"errcode"</span>).value(<span class="number">0</span>))</span><br><span class="line">                .andExpect(MockMvcResultMatchers.jsonPath(<span class="string">"description"</span>).value(<span class="string">"ok"</span>))</span><br><span class="line">                .andExpect(MockMvcResultMatchers.jsonPath(<span class="string">"data"</span>).isEmpty());</span><br><span class="line"></span><br><span class="line">        BDDMockito.verify(smsVerificationCodeDao).insert(any(), anyString());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<hr>
-<p><strong>问题场景：</strong> 当遇到方法返回值为void,但又需要对返回值进行值相等判断时</p>
-<p><strong>解决方案：</strong> 使用<code>Mockito.doAnswer</code></p>
-<p><strong>实际解决代码：</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">loginWithNewUser</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    String username = <span class="string">"test@qq.com"</span>;</span><br><span class="line">    String password = <span class="string">"123456"</span>;</span><br><span class="line"></span><br><span class="line">    Mockito.doAnswer(invocation -&gt; &#123;</span><br><span class="line">        User user = (User) invocation.getArguments()[<span class="number">0</span>];</span><br><span class="line">        user.setId(<span class="string">"10000"</span>);</span><br><span class="line">        <span class="keyword">return</span> user;</span><br><span class="line">    &#125;).when(userDao).save(any(User.class));</span><br><span class="line"></span><br><span class="line">    mockMvc.perform(post(<span class="string">"/user/login"</span>)</span><br><span class="line">            .param(<span class="string">"username"</span>, username)</span><br><span class="line">            .param(<span class="string">"password"</span>, password))</span><br><span class="line">            .andExpect(MockMvcResultMatchers.status().isOk())</span><br><span class="line">            .andExpect(MockMvcResultMatchers.jsonPath(<span class="string">"errcode"</span>).value(<span class="number">0</span>))</span><br><span class="line">            .andExpect(MockMvcResultMatchers.jsonPath(<span class="string">"data.id"</span>).value(<span class="string">"10000"</span>));</span><br><span class="line"></span><br><span class="line">    BDDMockito.verify(kdUserDao).save(any());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
+<h1 id="一个经常遇到的异常"><a href="#一个经常遇到的异常" class="headerlink" title="一个经常遇到的异常"></a>一个经常遇到的异常</h1><blockquote>
+<p>org.apache.poi.poifs.filesystem.OfficeXmlFileException: The supplied data appears to be in the Office 2007+ XML. You are calling the part of POI that deals with OLE2 Office Documents. You need to call a different part of POI to process this data (eg XSSF instead of HSSF)</p>
+</blockquote>
+<p>这段异常表示excel版本和workbook的类型不匹配导致的, HSSFWorkbook不支持Excel2007之后的文件版本, poi提供了XSSFWorkbook类型支持后面的版本,</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//HSSFWorkbook格式用来解析Excel2003（xls）的文件 </span></span><br><span class="line">HSSFWorkbook workbook =  <span class="keyword">new</span> HSSFWorkbook(in);</span><br><span class="line"><span class="comment">//XSSFWorkbook格式用来解析Excel2007（xlsx）的文件 </span></span><br><span class="line">XSSFWorkbook workbook =  <span class="keyword">new</span> XSSFWorkbook(in);</span><br></pre></td></tr></table></figure>
+<p><code>HSSFWorkbook</code>和<code>XSSFWorkbook</code>都实现了<code>Workbook</code>,因此直接使用<code>Workbook</code>即可。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Workbook workbook = WorkbookFactory.create(in);</span><br></pre></td></tr></table></figure>
+<h1 id="解决POI解析Excel文件版本问题"><a href="#解决POI解析Excel文件版本问题" class="headerlink" title="解决POI解析Excel文件版本问题"></a>解决<code>POI</code>解析Excel文件版本问题</h1><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--APACHE POI--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.poi<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>poi<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.poi<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>poi-ooxml<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.poi<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>poi-ooxml-schemas<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h1 id="读取Excel"><a href="#读取Excel" class="headerlink" title="读取Excel"></a>读取Excel</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.pa.stationexcelimport;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.poi.ss.usermodel.*;</span><br><span class="line"><span class="keyword">import</span> org.apache.poi.ss.util.CellReference;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.FileInputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Kairou Zeng</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReadExcel</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        String path = <span class="string">"H:\\read_excel.xlsx"</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//读excel文档对象</span></span><br><span class="line">        InputStream inputStream = <span class="keyword">new</span> FileInputStream(path);</span><br><span class="line">        Workbook workbook = WorkbookFactory.create(inputStream);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//获取要解析的表格</span></span><br><span class="line">        Sheet sheet = workbook.getSheetAt(<span class="number">0</span>);<span class="comment">//第一个表格</span></span><br><span class="line">        <span class="comment">//获得最后一行的行号,没有行或者只有一行的时候返回0</span></span><br><span class="line">        <span class="keyword">int</span> lastRowNum = sheet.getLastRowNum();</span><br><span class="line">        <span class="comment">//遍历每一行</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= lastRowNum; i++)&#123;</span><br><span class="line">            <span class="comment">//获得要解析的行</span></span><br><span class="line">            Row row = sheet.getRow(i);</span><br><span class="line">            <span class="comment">//获取最后的单元格号，如果单元格有第一个开始算，lastCellNum就是列的个数</span></span><br><span class="line">            <span class="keyword">int</span> lastCellNum = row.getLastCellNum();</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; lastCellNum; j ++)&#123;</span><br><span class="line">                Cell cell = row.getCell(j);</span><br><span class="line">                <span class="comment">//单元格名称</span></span><br><span class="line">                CellReference cellReference = <span class="keyword">new</span> CellReference(row.getRowNum(), cell.getColumnIndex());</span><br><span class="line">                String cellRefString = cellReference.formatAsString();</span><br><span class="line">                System.out.println(<span class="string">"单元格名称："</span>+cellRefString);</span><br><span class="line"></span><br><span class="line">                <span class="comment">//获取每个单元格的类型</span></span><br><span class="line">                CellType cellType = cell.getCellType();</span><br><span class="line">                <span class="keyword">if</span>(cellType == CellType.BLANK)&#123;</span><br><span class="line">                    System.out.println(<span class="string">"空格类型"</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(cellType == CellType.STRING)&#123;</span><br><span class="line">                    System.out.println(<span class="string">"字符串类型"</span>);</span><br><span class="line">                    String value = cell.getStringCellValue();  </span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(cellType == CellType.NUMERIC)&#123;</span><br><span class="line">                    System.out.println(<span class="string">"数字类型"</span>);</span><br><span class="line">                    <span class="keyword">double</span> value = cell.getNumericCellValue();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="写入Excel"><a href="#写入Excel" class="headerlink" title="写入Excel"></a>写入Excel</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.pa.stationexcelimport;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.poi.ss.usermodel.*;</span><br><span class="line"><span class="keyword">import</span> org.apache.poi.xssf.usermodel.XSSFWorkbook;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.FileOutputStream;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Kairou Zeng</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WriteExcel</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        String path = <span class="string">"H:\\write_excel.xlsx"</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//获得Excel文件输出流</span></span><br><span class="line">        FileOutputStream fileOutputStream = <span class="keyword">new</span> FileOutputStream(path);</span><br><span class="line">        <span class="comment">//创建Excel工作簿对象</span></span><br><span class="line">        XSSFWorkbook xssfWorkbook = <span class="keyword">new</span> XSSFWorkbook();</span><br><span class="line">        <span class="comment">//创建Excel页</span></span><br><span class="line">        Sheet sheet = xssfWorkbook.createSheet();</span><br><span class="line">        <span class="comment">//创建行</span></span><br><span class="line">        Row row = sheet.createRow(<span class="number">0</span>);</span><br><span class="line">        <span class="comment">//创建单元格</span></span><br><span class="line">        Cell cell = row.createCell(<span class="number">0</span>);</span><br><span class="line">        <span class="comment">//单元格写入内容</span></span><br><span class="line">        cell.setCellValue(<span class="string">"Test"</span>);</span><br><span class="line">        </span><br><span class="line">        xssfWorkbook.write(fileOutputStream);</span><br><span class="line">        fileOutputStream.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -463,7 +456,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/单元测试/" rel="tag"># 单元测试</a>
+            <a href="/tags/Apache-POI/" rel="tag"># Apache POI</a>
           
         </div>
       
@@ -476,8 +469,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/04/21/HandlerInterceptorAdapter详解/" rel="next" title="拦截器HandlerInterceptorAdapter的使用">
-                <i class="fa fa-chevron-left"></i> 拦截器HandlerInterceptorAdapter的使用
+              <a href="/2019/06/07/Spring处理请求响应和自定义Response/" rel="next" title="Spring处理请求响应和自定义Response">
+                <i class="fa fa-chevron-left"></i> Spring处理请求响应和自定义Response
               </a>
             
           </div>
@@ -485,10 +478,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/09/17/关于GitLab-CICD/" rel="prev" title="关于GitLab CI/CD">
-                关于GitLab CI/CD <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -540,8 +529,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -605,6 +603,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#日常记录"><span class="nav-text">日常记录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Apache-POI"><span class="nav-text">Apache POI</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一个经常遇到的异常"><span class="nav-text">一个经常遇到的异常</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解决POI解析Excel文件版本问题"><span class="nav-text">解决POI解析Excel文件版本问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#读取Excel"><span class="nav-text">读取Excel</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#写入Excel"><span class="nav-text">写入Excel</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
