@@ -1,8 +1,11 @@
 ---
 title: 写UT遇到的坑和解决方法
 author: Kairou Zeng
-date: 2018-07-01
-tags: 单元测试
+date: 2018/07/01
+tags: 
+    - 单元测试
+categories:
+    - 测试
 ---
 
 ----

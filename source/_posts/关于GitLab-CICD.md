@@ -2,7 +2,11 @@
 title: 关于GitLab CI/CD
 author: Kairou Zeng
 date: 2018/9/17
-tags: [git, 持续集成]
+tags: 
+    - git
+    - 持续集成
+categories:
+    - CICD
 ---
 
 ## 持续集成
@@ -31,7 +35,7 @@ tags: [git, 持续集成]
 
 > 持续部署(Continuous Deployment)，是持续交付的下一步，指的是代码通过评审以后，自动部署到生产环境。持续部署的目标是，代码在任何时刻都是可部署的，可以进入生产阶段。
 > 与`持续交付`的区别在于：部署到生产环境的过程是否自动化(`持续交付`需要手动部署到生产环境)。
-    
+
 ## Gitlab CI/CD
 
 > GitLab CI是GitLab提供的持续集成服务，只要在仓库根目录创建一个.gitlab.yml文件(定义GitLab runner要做哪些操作)，并为该项目指派一个Runner，当有Merge Request或push的时候就会触发build.
@@ -49,7 +53,7 @@ tags: [git, 持续集成]
     `GitLab Runner`分为两种：
 
         - Shared Runners:可以运行所有开启`Allow shared runners`选项的项目
-
+        
         - Specific Runners:只能被指定的项目使用
 
 - Pipelines
@@ -70,46 +74,46 @@ tags: [git, 持续集成]
 
     `Jobs`表示构建工作，表示某个`Stage`里面执行的工作。
 
-    | 关键字 | 是否必须 | 描述 |
-    | --- | --- | --- |
-    | script | 是 | 定义`Runner`需要执行的脚本或命令 |
-    | extends | 否 | 定义此 job 将继承的配置条目 |
-    | image | 否 | 需要使用的docker镜像 | 
-    | services | 否 | 定义了所需的docker服务 | 
-    | stage | 否 | 定义了`Job`的阶段，默认是`test` |
-    | type | 否 | `stage`的别名，不赞成使用 | 
-    | vaiables | 否 | 在`job`级别上定义的变量 | 
-    | only | 否 | 定义那些git分支适合该`job` |
-    | except | 否 | 定义了哪些git分支不适合该`job` |
-    | tages | 否 | 定义了哪些runner适合该job(runner在创建时会要求用户输入标签名来代表该runner) |
-    | allow_failure | 否 | 允许任务失败，但是如果失败，将不会改变提交状态 |
-    | when | 否 | 定义`job`什么时候能被执行，可以是`on_success`,`on_failure`,`always`或者`manual` |
-    | dependencies | 否 | 定义了该`job`依赖哪一个`job`，如果设置该项，你可以通过artifacts设置 |
-    | arfifacts | 否 | |
-    | cache | 否 | 定义需要被缓存的文件、文件夹列表 |
-    | before_script | 否 | 覆盖在根元素上定义的`before_script` |
-    | after_script | 否 | 覆盖在根元素上定义的`after_script` | 
-    | environment | 否 | 定义让job完成部署的环境名称 |
-    | coverage| 否 | 定义代码覆盖率设置 | 
-    | retry | 否 | 定义`job`失败后的自动充重试次数 |
+| 关键字 | 是否必须 | 描述 |
+| --- | --- | --- |
+| script | 是 | 定义`Runner`需要执行的脚本或命令 |
+| extends | 否 | 定义此`job`将继承的配置条目 |
+| image | 否 | 需要使用的docker镜像 |
+| services | 否 | 定义了所需的docker服务 |
+| stage | 否 | 定义了`Job`的阶段，默认是`test` |
+| type | 否 | `stage`的别名，不赞成使用 |
+| except | 否 | 定义了哪些git分支不适合该`job` |
+| vaiables | 否 | 在`job`级别上定义的变量 |
+| only | 否 | 定义那些git分支适合该`job` |
+| tages | 否 | 定义了哪些runner适合该job(runner在创建时会要求用户输入标签名来代表该runner) |
+| allow_failure | 否 | 允许任务失败，但是如果失败，将不会改变提交状态 |
+| when | 否 | 定义`job`什么时候能被执行，可以是`on_success`,`on_failure`,`always`或者`manual` |
+| dependencies | 否 | 定义了该`job`依赖哪一个`job`，如果设置该项，你可以通过artifacts设置 |
+| cache | 否 | 定义需要被缓存的文件、文件夹列表 |
+| before_script | 否 | 覆盖在根元素上定义的`before_script` |
+| after_script | 否 | 覆盖在根元素上定义的`after_script` |
+| environment | 否 | 定义让job完成部署的环境名称 |
+| coverage | 否 | 定义代码覆盖率设置 |
+| retry | 否 | 定义`job`失败后的自动充重试次数 |
 
-    - script
 
-        `script`是一段由`Runner`执行的shell脚本，例如：
+- script
 
-        ```YAML
-        job:
-            script: "bundle exec rspec"
-        ```
-
-        这个参数也可以使用数组包含几条命令：
-
-        ```YAML
-        job:
-            script:
-                - uname -a
-                - bundle exec rspec
-        ```
+    `script`是一段由`Runner`执行的shell脚本，例如：
+    
+    ```YAML
+    job:
+        script: "bundle exec rspec"
+    ```
+    
+    这个参数也可以使用数组包含几条命令：
+    
+    ```YAML
+    job:
+        script:
+            - uname -a
+            - bundle exec rspec
+    ```
 
 - 其他
 

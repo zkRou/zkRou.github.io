@@ -3,6 +3,7 @@ title: 拦截器HandlerInterceptorAdapter的使用
 author: Kairou Zeng
 tags:
     - HandlerInterceptorAdapter
+categories: 
     - Spring
 ---
 

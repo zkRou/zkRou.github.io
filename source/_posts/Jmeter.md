@@ -2,7 +2,10 @@
 title: Jmeter
 author: Kairou Zeng
 date: 2018/03/20
-tags: [测试]
+tags: 
+    - 测试工具
+categories:
+    - 测试
 ---
 
 # Jmeter 测试相关
