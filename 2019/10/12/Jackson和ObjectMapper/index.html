@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="HandlerInterceptorAdapter," />
+  <meta name="keywords" content="JSON," />
 
 
 
@@ -79,18 +79,20 @@
 
 
 
-<meta name="description" content="拦截器 - HandlerInterceptorAdapter的使用 Spring为我们提供了org.springframework.web.servlet.handler.HandlerInterceptorAdapter 这个适配器，继承此类，可以实现自己的拦截器   preHandle ：预处理回调方法，实现处理器的预处理（如登录检查），第三个参数为响应的处理器（如我们上一章的Control">
-<meta name="keywords" content="HandlerInterceptorAdapter">
+<meta name="description" content="使用Jackson和ObjectMapper处理JOSN与对象的转换。">
+<meta name="keywords" content="JSON">
 <meta property="og:type" content="article">
-<meta property="og:title" content="拦截器HandlerInterceptorAdapter的使用">
-<meta property="og:url" content="http://yoursite.com/2018/04/21/HandlerInterceptorAdapter详解/index.html">
+<meta property="og:title" content="Jackson框架和ObjectMapper">
+<meta property="og:url" content="http://yoursite.com/2019/10/12/Jackson和ObjectMapper/index.html">
 <meta property="og:site_name" content="凯柔的小本本">
-<meta property="og:description" content="拦截器 - HandlerInterceptorAdapter的使用 Spring为我们提供了org.springframework.web.servlet.handler.HandlerInterceptorAdapter 这个适配器，继承此类，可以实现自己的拦截器   preHandle ：预处理回调方法，实现处理器的预处理（如登录检查），第三个参数为响应的处理器（如我们上一章的Control">
+<meta property="og:description" content="使用Jackson和ObjectMapper处理JOSN与对象的转换。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-07T07:25:57.000Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/zkRou/note/master/Jackson框架.png">
+<meta property="og:updated_time" content="2019-10-20T09:15:26.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="拦截器HandlerInterceptorAdapter的使用">
-<meta name="twitter:description" content="拦截器 - HandlerInterceptorAdapter的使用 Spring为我们提供了org.springframework.web.servlet.handler.HandlerInterceptorAdapter 这个适配器，继承此类，可以实现自己的拦截器   preHandle ：预处理回调方法，实现处理器的预处理（如登录检查），第三个参数为响应的处理器（如我们上一章的Control">
+<meta name="twitter:title" content="Jackson框架和ObjectMapper">
+<meta name="twitter:description" content="使用Jackson和ObjectMapper处理JOSN与对象的转换。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zkRou/note/master/Jackson框架.png">
 
 
 
@@ -120,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/04/21/HandlerInterceptorAdapter详解/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/10/12/Jackson和ObjectMapper/"/>
 
 
 
 
 
-  <title>拦截器HandlerInterceptorAdapter的使用 | 凯柔的小本本</title>
+  <title>Jackson框架和ObjectMapper | 凯柔的小本本</title>
   
 
 
@@ -297,7 +299,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/21/HandlerInterceptorAdapter详解/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/12/Jackson和ObjectMapper/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Kris">
@@ -314,7 +316,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">拦截器HandlerInterceptorAdapter的使用</h1>
+          <h1 class="post-title" itemprop="name headline">Jackson框架和ObjectMapper</h1>
         
 
         <div class="post-meta">
@@ -326,8 +328,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-21T18:20:07+08:00">
-                2018-04-21
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-12T00:00:00+08:00">
+                2019-10-12
               </time>
             
 
@@ -349,8 +351,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Spring/" itemprop="url" rel="index">
-                    <span itemprop="name">Spring</span>
+                  <a href="/categories/数据处理/" itemprop="url" rel="index">
+                    <span itemprop="name">数据处理</span>
                   </a>
                 </span>
 
@@ -382,7 +384,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  399 字
+                  1,071 字
                 </span>
               
 
@@ -398,12 +400,16 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1 分钟
+                  5 分钟
                 </span>
               
             </div>
           
 
+          
+              <div class="post-description">
+                  使用Jackson和ObjectMapper处理JOSN与对象的转换。
+              </div>
           
 
         </div>
@@ -419,21 +425,116 @@
       
 
       
-        <h3 id="拦截器-HandlerInterceptorAdapter的使用"><a href="#拦截器-HandlerInterceptorAdapter的使用" class="headerlink" title="拦截器 - HandlerInterceptorAdapter的使用"></a>拦截器 - HandlerInterceptorAdapter的使用</h3><blockquote>
-<p>Spring为我们提供了<strong>org.springframework.web.servlet.handler.HandlerInterceptorAdapter</strong> 这个适配器，继承此类，可以实现自己的拦截器</p>
+        <p><img src="https://raw.githubusercontent.com/zkRou/note/master/Jackson框架.png" alt="Jackson框架"></p>
+<h1 id="Jackson框架"><a href="#Jackson框架" class="headerlink" title="Jackson框架"></a>Jackson框架</h1><blockquote>
+<p><code>Jackson</code>是最流行的json解释器之一。SpringMVC的默认json解释器就是<code>Jackson</code>。</p>
 </blockquote>
-<ul>
-<li><strong>preHandle</strong> ：预处理回调方法，实现处理器的预处理（如登录检查），第三个参数为响应的处理器（如我们上一章的Controller实现）。返回值：true表示继续流程（如调用下一个拦截器或处理器）；  false表示流程中断（如登录检查失败），不会继续调用其他的拦截器或处理器，此时我们需要通过response来产生响应；</li>
-</ul>
-<ul>
-<li><p><strong>postHandle</strong> ：后处理回调方法，实现处理器的后处理（但在渲染视图之前），此时我们可以通过modelAndView（模型和视图对象）对模型数据进行处理或对视图进行处理，modelAndView也可能为null。</p>
+<ol>
+<li><p><code>Jackson</code>的1.x版本的包名是<code>org.codehaus.jackson</code>，当升级到2.x版本时，包名为<code>com.fasterxml.jackson</code>。</p>
 </li>
-<li><p><strong>afterCompletion</strong>：整个请求处理完毕回调方法，即在视图渲染完毕时回调，如性能监控中我们可以在此记录结束时间并输出消耗时间，还可以进行一些资源清理，类似于try-catch-finally中的finally，但仅调用处理器执行链中preHandle返回true的拦截器的afterCompletion。</p>
-<p>​</p>
+<li><p><code>Jackson</code>的核心模块由三部分组成。</p>
+<ul>
+<li><p>jackson-core:</p>
+<p>核心包。提供基于“流模式”解析的相关API，它包括<code>JsonParser</code>和<code>JsonGenerator</code>。<code>Jackson</code>内部实现正是通过高性能的流模式API的<code>JsonGenerator</code>和<code>JsonParser</code>来生成和解析json;</p>
+</li>
+<li><p>jackson-annotations:</p>
+<p>注解包，提供标准注解功能;</p>
+</li>
+<li><p>jackson-databind:</p>
+<p>数据绑定包。提供基于“对象绑定”解析的相关API（ObjectMapper）和”树模型”解析的相关API（JsonNode）。基于”对象绑定” 解析的 API 和”树模型”解析的 API 依赖基于”流模式”解析的 API。</p>
 </li>
 </ul>
-<p><em>为何不使用 实现HandlerInterceptor接口的方法 来实现</em></p>
-<p>有时候我们可能只需要实现三个回调方法中的某一个，如果实现HandlerInterceptor接口的话，三个方法必须实现，不管你需不需要，此时spring提供了一个HandlerInterceptorAdapter适配器（一种适配器设计模式的实现），允许我们只实现需要的回调方法。</p>
+</li>
+<li><p>maven</p>
+</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jackson-databind<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.9.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>jackson-databind</code>依赖<code>jackson-core</code>和<code>jackson-annotations</code>，当添加<code>jackson-databind</code>之后，<code>jackson-core</code>和<code>jackson-annotations</code>也随之添加到Java项目工程中。在添加相关依赖包之后，就可以使用<code>Jackson</code>。</p>
+<ol start="4">
+<li><code>Jackson</code>的注解使用</li>
+</ol>
+<p><code>Jackson</code>根据它的默认方式序列化和反序列化java对象，可根据实际需要，灵活调整它的默认方式。可以使用<code>Jackson</code>注解。</p>
+<table>
+<thead>
+<tr>
+<th>注解</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@JsonProperty</td>
+<td>用于属性或方法，把属性的名称序列化时转换为另一个名称</td>
+</tr>
+<tr>
+<td>@JsonIngore</td>
+<td>用于属性或方法，过滤单个属性不序列化</td>
+</tr>
+<tr>
+<td>@JsonIgnoreProperties</td>
+<td>过滤多个属性。如：@JsonIgnoreProperties(value = { “age”,”name” })</td>
+</tr>
+<tr>
+<td>@JsonFormat</td>
+<td>用于属性或者方法，把属性的格式序列化时转换成指定的格式。示例：<br>@JsonFormat(timezone=”GMT+8”, pattern=”yyyy-MM-dd HH:mm”)</td>
+</tr>
+<tr>
+<td>@JsonPropertyOrder</td>
+<td>用于类，指定属性在序列化时json中的顺序。示例：<br>@JsonPropertyOrder({“name”, “age”})</td>
+</tr>
+</tbody>
+</table>
+<p>等…</p>
+<ol start="5">
+<li>泛型反序列化</li>
+</ol>
+<ul>
+<li><p>List类型，可以调用<code>constructCollectionType()</code>方法来序列化，也可以构造<code>TypeReference</code>来序列化。</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ObjectMapper mapper = <span class="keyword">new</span> ObjectMapper();</span><br><span class="line">String userListJson = <span class="string">"[&#123;\"username\":\"Kairou Zeng\",\"age\":1&#125;]"</span>;</span><br><span class="line">CollectionType collectionType = mapper.getTypeFactory().constructCollectionType(List.class, User.class);</span><br><span class="line">List&lt;User&gt; userList = mapper.readValue(userListJson, collectionType);</span><br><span class="line">System.out.println(userList);</span><br></pre></td></tr></table></figure>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ObjectMapper mapper = <span class="keyword">new</span> ObjectMapper();</span><br><span class="line">String userListJson = <span class="string">"[&#123;\"username\":\"Kairou Zeng\",\"age\":1&#125;]"</span>;</span><br><span class="line">List&lt;User&gt; userList = mapper.readValue(userListJson, <span class="keyword">new</span> TypeReference&lt;List&lt;User&gt;&gt;()&#123;&#125;);</span><br><span class="line">System.out.println(userList);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Map类型，可以调用<code>constructMapType()</code>方法来序列化，也可以通过<code>TypeReference</code>来序列化。</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ObjectMapper mapper = <span class="keyword">new</span> ObjectMapper();</span><br><span class="line">String userMapJson = <span class="string">"&#123;\"1\":&#123;\"username\":\"Kairou Zeng\",\"age\":1&#125;&#125;"</span>;</span><br><span class="line">MapType mapType = mapper.getTypeFactory().constructMapType(HashMap.class, String.class, User.class);</span><br><span class="line">Map&lt;String, User&gt; userMap = mapper.readValue(userMapJson, mapType);</span><br><span class="line">System.out.println(userMap);</span><br></pre></td></tr></table></figure>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ObjectMapper mapper = <span class="keyword">new</span> ObjectMapper();</span><br><span class="line">String userMapJson = <span class="string">"&#123;\"1\":&#123;\"username\":\"Kairou Zeng\",\"age\":1&#125;&#125;"</span>;</span><br><span class="line">Map&lt;String, User&gt; userMap = mapper.readValue(userMapJson, <span class="keyword">new</span> TypeReference&lt;Map&lt;String, User&gt;&gt;()&#123;&#125;);</span><br><span class="line">System.out.println(userMap);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="ObjectMapper"><a href="#ObjectMapper" class="headerlink" title="ObjectMapper"></a>ObjectMapper</h1><blockquote>
+<p>基于”对象绑定”的<code>ObjectMapper</code>。<code>ObjectMapper</code>是JSON操作的核心，<code>Jackson</code>所有操作都是在<code>ObjectMapper</code>中实现的。</p>
+</blockquote>
+<ol>
+<li><p><code>ObjectMapper</code>是<code>Jackson</code>包下的一个类，是<code>Jackson</code>最常用的API。处理java对象和json之间关系转换用的，用来序列化和反序列化json的Java的开源框架。</p>
+</li>
+<li><p>使用示例：</p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    ObjectMapper mapper = <span class="keyword">new</span> ObjectMapper();</span><br><span class="line">    User user = <span class="keyword">new</span> User(<span class="string">"Kairou Zeng"</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    String jsonString = mapper.writeValueAsString(user);</span><br><span class="line">    System.out.println(jsonString);</span><br><span class="line"></span><br><span class="line">    User userFromJson = mapper.readValue(jsonString, User.class);</span><br><span class="line">    System.out.println(userFromJson);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> ZENGKAIROU583</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String username;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(String username, <span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.username = username;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getUsername</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> username;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUsername</span><span class="params">(String username)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.username = username;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"User&#123;"</span> +</span><br><span class="line">                <span class="string">"username='"</span> + username + <span class="string">'\''</span> +</span><br><span class="line">                <span class="string">", age="</span> + age +</span><br><span class="line">                <span class="string">'&#125;'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><code>ObjectMapper</code>通过<code>writeValue</code>系列方法将<code>java对象</code>序列化为<code>json</code>，并将<code>json</code>存储成不同的格式：</p>
+<ul>
+<li><p>String(writeValueAsString)</p>
+</li>
+<li><p>Byte Array(writeValueAsBytes)</p>
+</li>
+<li><p>Writer</p>
+</li>
+<li><p>File </p>
+</li>
+<li><p>OutStream</p>
+</li>
+<li><p>DataOutput</p>
+</li>
+</ul>
+</li>
+<li><p><code>ObjectMapper</code>通过<code>readValue</code>系列方法从不同的数据源如String，Byte Array，Reader，File，URL，InputStream将json反序列化为java对象。</p>
+</li>
+</ul>
+<ol start="3">
+<li>配置</li>
+</ol>
+<p>在调用<code>writeValue</code>或调用<code>readValue</code>方法之前，往往需要设置<code>ObjectMapper</code>的相关配置信息。这些配置信息应用java对象的所有属性上。</p>
+<p>具体的配置信息可以查看<code>Jackson</code>的<code>DeserialzationFeature</code>、<code>SerializationFeature</code>和<code>Include</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在反序列化时忽略在 json 中存在但 Java 对象不存在的属性 </span></span><br><span class="line">mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,<span class="keyword">false</span>);</span><br><span class="line"><span class="comment">//在序列化时日期格式默认为 yyyy-MM-dd'T'HH:mm:ss.SSSZ </span></span><br><span class="line">mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS,<span class="keyword">false</span>);</span><br><span class="line"><span class="comment">//在序列化时忽略值为 null 的属性 </span></span><br><span class="line">mapper.setSerializationInclusion(Include.NON_NULL);</span><br><span class="line"><span class="comment">//忽略值为默认值的属性 </span></span><br><span class="line">mapper.setDefaultPropertyInclusion(Include.NON_DEFAULT);</span><br></pre></td></tr></table></figure>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://www.baeldung.com/jackson-object-mapper-tutorial" target="_blank" rel="noopener">jackson-object-mapper-tutorial</a></p>
 
       
     </div>
@@ -451,7 +552,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/HandlerInterceptorAdapter/" rel="tag"># HandlerInterceptorAdapter</a>
+            <a href="/tags/JSON/" rel="tag"># JSON</a>
           
         </div>
       
@@ -464,8 +565,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/20/Jmeter/" rel="next" title="Jmeter">
-                <i class="fa fa-chevron-left"></i> Jmeter
+              <a href="/2019/10/08/地理空间库/" rel="next" title="地理空间/几何函数">
+                <i class="fa fa-chevron-left"></i> 地理空间/几何函数
               </a>
             
           </div>
@@ -474,8 +575,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/07/01/写UT遇到的坑和解决方法/" rel="prev" title="写UT遇到的坑和解决方法">
-                写UT遇到的坑和解决方法 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/10/17/Guava Cache/" rel="prev" title="Guava Cache">
+                Guava Cache <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -612,7 +713,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#拦截器-HandlerInterceptorAdapter的使用"><span class="nav-text">拦截器 - HandlerInterceptorAdapter的使用</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Jackson框架"><span class="nav-text">Jackson框架</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ObjectMapper"><span class="nav-text">ObjectMapper</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
