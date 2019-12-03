@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="HandlerInterceptorAdapter," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -79,18 +79,17 @@
 
 
 
-<meta name="description" content="拦截器 - HandlerInterceptorAdapter的使用 Spring为我们提供了org.springframework.web.servlet.handler.HandlerInterceptorAdapter 这个适配器，继承此类，可以实现自己的拦截器   preHandle ：预处理回调方法，实现处理器的预处理（如登录检查），第三个参数为响应的处理器（如我们上一章的Control">
-<meta name="keywords" content="HandlerInterceptorAdapter">
+<meta name="description" content="2019年11月的随手笔记">
 <meta property="og:type" content="article">
-<meta property="og:title" content="拦截器HandlerInterceptorAdapter的使用">
-<meta property="og:url" content="http://yoursite.com/2018/04/21/HandlerInterceptorAdapter详解/index.html">
+<meta property="og:title" content="2019年11月随手记">
+<meta property="og:url" content="http://yoursite.com/2019/12/01/2019年11月随手记/index.html">
 <meta property="og:site_name" content="凯柔的小本本">
-<meta property="og:description" content="拦截器 - HandlerInterceptorAdapter的使用 Spring为我们提供了org.springframework.web.servlet.handler.HandlerInterceptorAdapter 这个适配器，继承此类，可以实现自己的拦截器   preHandle ：预处理回调方法，实现处理器的预处理（如登录检查），第三个参数为响应的处理器（如我们上一章的Control">
+<meta property="og:description" content="2019年11月的随手笔记">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-07T07:25:57.000Z">
+<meta property="og:updated_time" content="2019-12-02T11:33:20.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="拦截器HandlerInterceptorAdapter的使用">
-<meta name="twitter:description" content="拦截器 - HandlerInterceptorAdapter的使用 Spring为我们提供了org.springframework.web.servlet.handler.HandlerInterceptorAdapter 这个适配器，继承此类，可以实现自己的拦截器   preHandle ：预处理回调方法，实现处理器的预处理（如登录检查），第三个参数为响应的处理器（如我们上一章的Control">
+<meta name="twitter:title" content="2019年11月随手记">
+<meta name="twitter:description" content="2019年11月的随手笔记">
 
 
 
@@ -120,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/04/21/HandlerInterceptorAdapter详解/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/12/01/2019年11月随手记/"/>
 
 
 
 
 
-  <title>拦截器HandlerInterceptorAdapter的使用 | 凯柔的小本本</title>
+  <title>2019年11月随手记 | 凯柔的小本本</title>
   
 
 
@@ -297,7 +296,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/21/HandlerInterceptorAdapter详解/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/01/2019年11月随手记/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Kris">
@@ -314,7 +313,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">拦截器HandlerInterceptorAdapter的使用</h1>
+          <h1 class="post-title" itemprop="name headline">2019年11月随手记</h1>
         
 
         <div class="post-meta">
@@ -326,8 +325,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-21T18:20:07+08:00">
-                2018-04-21
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-01T00:00:00+08:00">
+                2019-12-01
               </time>
             
 
@@ -349,8 +348,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Spring/" itemprop="url" rel="index">
-                    <span itemprop="name">Spring</span>
+                  <a href="/categories/随手记/" itemprop="url" rel="index">
+                    <span itemprop="name">随手记</span>
                   </a>
                 </span>
 
@@ -382,7 +381,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  399 字
+                  1,530 字
                 </span>
               
 
@@ -398,12 +397,16 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1 分钟
+                  6 分钟
                 </span>
               
             </div>
           
 
+          
+              <div class="post-description">
+                  2019年11月的随手笔记
+              </div>
           
 
         </div>
@@ -419,21 +422,132 @@
       
 
       
-        <h3 id="拦截器-HandlerInterceptorAdapter的使用"><a href="#拦截器-HandlerInterceptorAdapter的使用" class="headerlink" title="拦截器 - HandlerInterceptorAdapter的使用"></a>拦截器 - HandlerInterceptorAdapter的使用</h3><blockquote>
-<p>Spring为我们提供了<strong>org.springframework.web.servlet.handler.HandlerInterceptorAdapter</strong> 这个适配器，继承此类，可以实现自己的拦截器</p>
-</blockquote>
+        <ol>
+<li>在使用mvn编译项目时，报错“-source8或更高版本以启用lambda表达式”错误</li>
+</ol>
 <ul>
-<li><strong>preHandle</strong> ：预处理回调方法，实现处理器的预处理（如登录检查），第三个参数为响应的处理器（如我们上一章的Controller实现）。返回值：true表示继续流程（如调用下一个拦截器或处理器）；  false表示流程中断（如登录检查失败），不会继续调用其他的拦截器或处理器，此时我们需要通过response来产生响应；</li>
-</ul>
-<ul>
-<li><p><strong>postHandle</strong> ：后处理回调方法，实现处理器的后处理（但在渲染视图之前），此时我们可以通过modelAndView（模型和视图对象）对模型数据进行处理或对视图进行处理，modelAndView也可能为null。</p>
-</li>
-<li><p><strong>afterCompletion</strong>：整个请求处理完毕回调方法，即在视图渲染完毕时回调，如性能监控中我们可以在此记录结束时间并输出消耗时间，还可以进行一些资源清理，类似于try-catch-finally中的finally，但仅调用处理器执行链中preHandle返回true的拦截器的afterCompletion。</p>
-<p>​</p>
+<li>因为设置的maven默认jdk编译版本太低<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!-- 指定maven编译的jdk版本 --&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-compiler-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">version</span>&gt;</span>3.8.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">source</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">source</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">target</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">target</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">finalName</span>&gt;</span>IntelligentSitePC<span class="tag">&lt;/<span class="name">finalName</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p><em>为何不使用 实现HandlerInterceptor接口的方法 来实现</em></p>
-<p>有时候我们可能只需要实现三个回调方法中的某一个，如果实现HandlerInterceptor接口的话，三个方法必须实现，不管你需不需要，此时spring提供了一个HandlerInterceptorAdapter适配器（一种适配器设计模式的实现），允许我们只实现需要的回调方法。</p>
+<ol start="2">
+<li>java8 stream()-聚合函数，排序函数</li>
+<li>跨域：</li>
+</ol>
+<ul>
+<li>Access-Control-Allow-Credentials<br>该字段可选。它的值是一个布尔值，表示是否允许发送Cookie.默认情况下，不发送Cookie，即：false。<pre><code>对服务器有特殊要求的请求，比如请求方法是PUT或DELETE，或者Content-Type字段的类型是application/json，这个值只能设为true。如果服务器不要浏览器发送Cookie，删除该字段即可。
+</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addCorsMappings</span><span class="params">(CorsRegistry registry)</span> </span>&#123;</span><br><span class="line">	registry.addMapping(<span class="string">"/**"</span>)</span><br><span class="line">			.allowedOrigins(<span class="string">"*"</span>)</span><br><span class="line">			.allowedMethods(<span class="string">"GET"</span>, <span class="string">"HEAD"</span>, <span class="string">"POST"</span>,<span class="string">"PUT"</span>, <span class="string">"DELETE"</span>, <span class="string">"OPTIONS"</span>)</span><br><span class="line">			.allowCredentials(<span class="keyword">false</span>)</span><br><span class="line">			.maxAge(<span class="number">3600</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol start="4">
+<li><p>@EnableWebMvc、WebMvcConfigurerAdapter 、WebMvcConfigurationSupport<br>引入了这样一个类DelegatingWebMvcConfiguration，通过@Bean注册了和<a href="mvc:annotation-driven/" target="_blank" rel="noopener">mvc:annotation-driven/</a>一样的组件，RequestMappingHandlerMapping、RequestMappingHandlerAdatper、HandlerExceptionResolver等等，只要有个Spring管理的bean继承WebMvcConfigurer或WebMvcConfigurerAdapter，重写方法即可自定义<a href="mvc:annotation-driven/" target="_blank" rel="noopener">mvc:annotation-driven/</a>.<br>其实@EnableWebMvc == @Import({DelegatingWebMvcConfiguration.class})</p>
+</li>
+<li><p>tomcat部署</p>
+</li>
+</ol>
+<ul>
+<li><p>修改端口在<code>/apache-tomcat/conf/server.xml</code>下 </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Server</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Listener</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">GlobaNamingResources</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">GlobaNamingResources</span></span></span><br><span class="line">    &lt;Service&gt;</span><br><span class="line">        <span class="tag">&lt;<span class="name">Connector</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">Engine</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">Logger</span> /&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">Realm</span> /&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">host</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;<span class="name">Logger</span> /&gt;</span></span><br><span class="line">                   <span class="tag">&lt;<span class="name">Context</span> /&gt;</span></span><br><span class="line">               <span class="tag">&lt;/<span class="name">host</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">Engine</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">Service</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">Server</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置session过期时长和httpOnly=true</p>
+</li>
+</ul>
+<ol start="6">
+<li>tomcat改成80端口时：</li>
+</ol>
+<p>在lunix下，非root用户不能监听小于1024的端口号，这个tomcat服务器就没办法绑定在80端口下，有两种解决方案：</p>
+<ul>
+<li>用root用户启动服务；</li>
+<li>使用linux端口转发机制，把80端口的服务请求都转到8080端口上：<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080</span><br><span class="line"></span><br><span class="line">service iptables save</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol start="7">
+<li>pgsql oder by自定义顺序</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> history <span class="keyword">ORDER</span> <span class="keyword">BY</span> score <span class="keyword">DESC</span>,<span class="keyword">CASE</span> <span class="keyword">status</span> <span class="keyword">WHEN</span> <span class="string">'成功'</span> <span class="keyword">THEN</span> <span class="number">1</span> <span class="keyword">WHEN</span> <span class="string">'运行中'</span> <span class="keyword">THEN</span> <span class="number">2</span> <span class="keyword">WHEN</span> <span class="string">'失败’THEN 3 END</span></span><br></pre></td></tr></table></figure>
+<p>8.mybatis 动态查询</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;choose&gt;</span><br><span class="line">    &lt;when test="id != nul or id != 0l"&gt;&lt;/when&gt;</span><br><span class="line">    &lt;otherwise&gt;&lt;/otherwise&gt;</span><br><span class="line">&lt;/choose&gt;</span><br></pre></td></tr></table></figure>
+<ol start="9">
+<li>final</li>
+</ol>
+<ul>
+<li>被final修饰的类不可被继承</li>
+<li>被final修饰的方法不可被重写</li>
+<li>被final修饰的变量不可被改变（不可变的是变量的引用，而不是引用指向的内容，引用指向的内容是可以改变的）</li>
+<li>被final修饰的方法，JVM会尝试为之寻求内联，这对于提升Java的效率是非常重要的。因此，如果能确定方法不会被继承，那么尽量将方法定义为final</li>
+<li>被final修饰的常量，在编译阶段会存入调用类的常量池</li>
+<li>final关键字提高了性能。JVM和Java应用都会缓存final常量</li>
+<li>final常量可以安全的在多线程环境下进行共享，而不需要额外的同步开销</li>
+<li>使用final关键字，JVM会对方法、变量及类进行优化</li>
+</ul>
+<ol start="10">
+<li>@GetMapping/@PostMapping</li>
+</ol>
+<ul>
+<li>value：指定请求的实际地址</li>
+<li>consumes：指定处理请求的提交内容类型（Content-Type）,例如：application/json，text/html</li>
+<li><p>produces：指定返回的内容类型，仅当request请求头中的(Accept)类型中包含该指定类型才返回</p>
+<ul>
+<li>指定request中必须包含某些参数值时，才让该方法处理</li>
+<li>指定request中必须包含某些指定的header值，才能让该方法处理请求</li>
+</ul>
+</li>
+<li><p>在Request中：</p>
+<ul>
+<li>ContentType用来告诉服务器当前发送的数据是什么格式</li>
+<li><p>Accep用来告诉服务器，客户端能认识哪些格式,最好返回这些格式中的其中一种</p>
+<p>而consumes用来限制ContentType；<br>produces用来限制Accept </p>
+</li>
+</ul>
+</li>
+</ul>
+<ol start="11">
+<li>session失效</li>
+</ol>
+<ul>
+<li>距离上一次使用该session的时间达到设置的失效时间，session失效</li>
+<li>方法session.invalidate()被执行，主动使得session失效</li>
+</ul>
+<ol start="12">
+<li>session为什么在浏览器关闭之后失效了？</li>
+</ol>
+<ul>
+<li>未设置session失效时间，默认为浏览器关闭后失效；</li>
+<li>大部分的session机制都是采用进程中的cookie来保存sessionid的，也就是JSESSIONID，浏览器关闭后进程消失，进程中的cookie消失，那么sessionid也就跟着消失了。</li>
+<li>解决：使用cookie与session混用<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">addCookie</span><span class="params">( HttpServletResponse response)</span> <span class="keyword">throws</span></span></span><br><span class="line"><span class="function">   UnsupportedEncodingException </span>&#123;</span><br><span class="line">    Cookie cookie = <span class="keyword">new</span> Cookie(<span class="string">"remember_login"</span>, rememberLoginId);</span><br><span class="line">    cookie.setMaxAge(<span class="number">7</span> * <span class="number">86400</span>);</span><br><span class="line">    cookie.setPath(<span class="string">"/"</span>);</span><br><span class="line">    cookie.setHttpOnly(<span class="keyword">true</span>);</span><br><span class="line">    response.addCookie(cookie);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>拦截器：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@RequiredArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RememberLoginInterceptor</span> <span class="keyword">extends</span> <span class="title">HandlerInterceptorAdapter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String COOLIE_NAME = <span class="string">"remember_login"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> RememberLoginService rememberLoginService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">preHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span> </span>&#123;</span><br><span class="line">        String rememberLoginId = findRememberLoginId(request.getCookies());</span><br><span class="line">        <span class="keyword">if</span> (rememberLoginId != <span class="keyword">null</span>) &#123;</span><br><span class="line">            rememberLoginService.login(rememberLoginId);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> String <span class="title">findRememberLoginId</span><span class="params">(Cookie[] cookies)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (cookies == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">final</span> Cookie cookie : cookies) &#123;</span><br><span class="line">            <span class="keyword">if</span> (COOLIE_NAME.equals(cookie.getName())) &#123;</span><br><span class="line">                <span class="keyword">return</span> cookie.getValue();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="13">
+<li>java 线程</li>
+<li>knox网关</li>
+</ol>
+<ul>
+<li>Apache Knox Gateway是一款用于保护Hadoop生态体系安全得代理网关系统，为Hadoop集群提供唯一的代理入口。Knox以类似反向代理的形式，隐藏部署细节（例如端口号和机器名等），接管所有用户的HTTP请求，以保护集群安全。</li>
+</ul>
+<ol start="15">
+<li>大数据服务emr</li>
+<li>oozie</li>
+<li>WebHCat</li>
+<li>HCatLog</li>
+</ol>
+<ul>
+<li>Hadoop集群的元数据服务，是Hadoop的元数据和数据表的管理系统</li>
+<li>基于Hive中的元数据层，通过类似SQL的语言展现Hadoop数据的关联关系。 HCatalog允许用户通过Hive，Pig，MapReduce共享数据和元数据。它的另一特点就是在用户编写应用程序时无需关心数据怎么存储，在哪里存储，还避免用户因schema和存储格式的改变而受到影响。</li>
+</ul>
+<ol start="19">
+<li>Hive</li>
+</ol>
+<ul>
+<li>Hive是Hadoop家族中一款数据仓库产品，Hive最大的特点就是提供了类SQL的语法，封装了底层的MapReduce过程，让有SQL基础的业务人员，也可以直接利用Hadoop进行大数据的操作。就是这一个点，解决了原数据分析人员对于大数据分析的瓶颈。</li>
+</ul>
+<ol start="20">
+<li>GCJ02（火星坐标系）不是2000坐标系</li>
+<li>java中接口的方法默认是public abstract。</li>
+<li>springboot上传文件报错：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Upexpected EOF read on the socket</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>解决方法：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">    connectionTimeout: 180000</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -449,12 +563,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/HandlerInterceptorAdapter/" rel="tag"># HandlerInterceptorAdapter</a>
-          
-        </div>
-      
 
       
       
@@ -464,8 +572,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/20/Jmeter/" rel="next" title="Jmeter">
-                <i class="fa fa-chevron-left"></i> Jmeter
+              <a href="/2019/10/17/Guava Cache/" rel="next" title="Guava Cache">
+                <i class="fa fa-chevron-left"></i> Guava Cache
               </a>
             
           </div>
@@ -473,10 +581,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/07/01/写UT遇到的坑和解决方法/" rel="prev" title="写UT遇到的坑和解决方法">
-                写UT遇到的坑和解决方法 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -528,17 +632,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -602,22 +697,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#拦截器-HandlerInterceptorAdapter的使用"><span class="nav-text">拦截器 - HandlerInterceptorAdapter的使用</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
