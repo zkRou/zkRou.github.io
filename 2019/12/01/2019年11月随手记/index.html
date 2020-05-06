@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="凯柔的小本本">
 <meta property="og:description" content="2019年11月的随手笔记">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-02T11:33:20.000Z">
+<meta property="og:updated_time" content="2020-05-06T15:47:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2019年11月随手记">
 <meta name="twitter:description" content="2019年11月的随手笔记">
@@ -381,7 +381,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,530 字
+                  1,531 字
                 </span>
               
 
@@ -439,7 +439,7 @@
 </li>
 </ul>
 <ol start="4">
-<li><p>@EnableWebMvc、WebMvcConfigurerAdapter 、WebMvcConfigurationSupport<br>引入了这样一个类DelegatingWebMvcConfiguration，通过@Bean注册了和<a href="mvc:annotation-driven/" target="_blank" rel="noopener">mvc:annotation-driven/</a>一样的组件，RequestMappingHandlerMapping、RequestMappingHandlerAdatper、HandlerExceptionResolver等等，只要有个Spring管理的bean继承WebMvcConfigurer或WebMvcConfigurerAdapter，重写方法即可自定义<a href="mvc:annotation-driven/" target="_blank" rel="noopener">mvc:annotation-driven/</a>.<br>其实@EnableWebMvc == @Import({DelegatingWebMvcConfiguration.class})</p>
+<li><p>@EnableWebMvc、WebMvcConfigurerAdapter 、WebMvcConfigurationSupport<br>引入了这样一个类DelegatingWebMvcConfiguration，通过@Bean注册了和\<a href="mvc:annotation-driven/" target="_blank" rel="noopener">mvc:annotation-driven/</a>一样的组件，RequestMappingHandlerMapping、RequestMappingHandlerAdatper、HandlerExceptionResolver等等，只要有个Spring管理的bean继承WebMvcConfigurer或WebMvcConfigurerAdapter，重写方法即可自定义\<a href="mvc:annotation-driven/" target="_blank" rel="noopener">mvc:annotation-driven/</a>.<br>其实@EnableWebMvc == @Import({DelegatingWebMvcConfiguration.class})</p>
 </li>
 <li><p>tomcat部署</p>
 </li>
@@ -454,7 +454,7 @@
 <ol start="6">
 <li>tomcat改成80端口时：</li>
 </ol>
-<p>在lunix下，非root用户不能监听小于1024的端口号，这个tomcat服务器就没办法绑定在80端口下，有两种解决方案：</p>
+<p>在linux下，非root用户不能监听小于1024的端口号，这个tomcat服务器就没办法绑定在80端口下，有两种解决方案：</p>
 <ul>
 <li>用root用户启动服务；</li>
 <li>使用linux端口转发机制，把80端口的服务请求都转到8080端口上：<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080</span><br><span class="line"></span><br><span class="line">service iptables save</span><br></pre></td></tr></table></figure>
@@ -711,7 +711,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
